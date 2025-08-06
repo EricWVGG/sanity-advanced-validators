@@ -4,9 +4,22 @@
 
 This package includes a set of validators that I’ve developed for aggressive and weird edge cases. Please let me know if you find these helpful!
 
+## Tools
+
+- [fileType](#fileType)
+- [minDimensions](#minDimensions)
+- [maxDimensions](#maxDimensions)
+- [requiredIfPeerEq](#requiredIfPeerEq)
+- [requiredIfPeerNeq](#requiredIfPeerNeq)
+- [requiredIfPeerIsTruthy](#requiredIfPeerIsTruthy)
+- [requiredIfPeerIsFalsey](#requiredIfPeerIsFalsey)
+- [requiredIfSlugEq](#requiredIfSlugEq)
+- [requiredIfSlugNeq](#requiredIfSlugNeq)
+- [referencedDocumentRequires](#referencedDocumentRequires)
+
 ## Examples
 
-### fileType(fileExtension: string | Array<string>)
+### fileType
 
 Enforces that an uploaded file asset is of a certain format.
 
@@ -31,7 +44,7 @@ const Page = defineType({
 })
 ```
 
-### minDimensions({x?: number, y?: number})
+### minDimensions
 
 Enforces that an uploaded image asset is at minimum certain dimensions.
 
@@ -66,7 +79,7 @@ defineField({
 })
 ```
 
-### maxDimensions({x?: number, y?: number})
+### maxDimensions
 
 Enforces that an uploaded image asset is at most certain dimensions.
 
@@ -105,7 +118,7 @@ defineField({
 })
 ```
 
-### requiredIfPeerEq(nameOfPeer: string, test: string)
+### requiredIfPeerEq
 
 For a given object that has multiple fields, mark a field as `required` if a peer has a particular value.
 
@@ -142,7 +155,7 @@ defineType({
 })
 ```
 
-### requiredIfPeerNeq(nameOfPeer: string, test: string)
+### requiredIfPeerNeq
 
 For a given object that has multiple fields, mark a field as `required` if a peer does _not_ have a particular value.
 
@@ -175,7 +188,7 @@ defineType({
 })
 ```
 
-### requiredIfPeerIsTruthy(nameOfPeer: string)
+### requiredIfPeerIsTruthy
 
 For a given object that has multiple fields, mark a field as `required` if another has any value at all (i.e. not-null).
 
@@ -213,7 +226,7 @@ defineField({
 …
 ```
 
-### requiredIfPeerIsFalsey(nameOfPeer: string)
+### requiredIfPeerIsFalsey
 
 For a given object that has multiple fields, mark a field as `required` if another has no value (i.e. false or null).
 
@@ -238,7 +251,7 @@ defineType({
 })
 ```
 
-### requiredIfSlugEq(test: string, slugName?: string)
+### requiredIfSlugEq
 
 Require for matching slugs.
 
@@ -281,7 +294,7 @@ If you named your slug something else…
 ]
 ```
 
-### requiredIfSlugNeq(test: string, slugName?: string)
+### requiredIfSlugNeq
 
 Require fields on pages that don't match a particular slug.
 
@@ -310,7 +323,7 @@ defineType({
 })
 ```
 
-### referencedDocumentRequires(documentType: string, field: string)
+### referencedDocumentRequires
 
 You might want to enforce some validation on a referred document. This validator enforces that a given value is not null in the referenced document.
 
@@ -324,7 +337,7 @@ defineField({
 }),
 ```
 
-### maxDepth(maxDepth: number)
+### maxDepth
 
 It can be useful to have a nested type. This often comes up when making some kind of navigation tree, like…
 
