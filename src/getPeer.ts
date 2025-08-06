@@ -1,5 +1,5 @@
-import { get } from "lodash-es"
-import { ValidationContext } from "sanity"
+import {get} from 'lodash'
+import {ValidationContext} from 'sanity'
 
 export const getPeer = (key: string | number, context: ValidationContext) => {
   const pathToParentObject = context.path!.slice(0, -1) as Array<string | number>
