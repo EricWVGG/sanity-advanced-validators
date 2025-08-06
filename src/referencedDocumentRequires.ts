@@ -1,6 +1,6 @@
 import { ValidationContext } from "sanity"
 
-export const referredDocumentMustHave = (documentType: string, field: string) => async (value: any | undefined, context: ValidationContext) => {
+export const referencedDocumentRequires = (documentType: string, field: string) => async (value: any | undefined, context: ValidationContext) => {
   if (!value?._ref) {
     return true
   }
@@ -11,6 +11,6 @@ export const referredDocumentMustHave = (documentType: string, field: string) =>
     *[_type == "${documentType}" && _id == "${value._ref}"]{
       ${field}
     }[0]
-  `)
-  return !data.poster ? `${documentType}’s ${field} must be filled.` : true
+  `) // TODO: why is typescript screaming about this? Fetch takes two parameters.
+  return !data[field] ? `${documentType}’s ${field} must be filled.` : true
 }

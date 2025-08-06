@@ -333,7 +333,7 @@ defineField({
   description: 'An article (must include a valid poster image)',
   type: 'reference',
   to: [{type: 'article'}],
-  validation: (rule) => rule.custom(articleMustHavePoster('article', 'poster')),
+  validation: (rule) => rule.custom(referencedDocumentRequires('article', 'poster')),
 }),
 ```
 
