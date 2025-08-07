@@ -2,7 +2,9 @@
 
 (note: this is a WIP, I don’t know a lot about publishing NPM packages, hopefully coming soon)
 
-This package includes a set of validators that I’ve developed for aggressive and weird edge cases. Please let me know if you find these helpful!
+This package includes a set of Sanity validators for aggressive and weird edge cases. Please let me know if you find these helpful!
+
+Note that every validator can accept an optional custom error message as its last parameter. `minDimensions` lists one example; all the others work the same way.
 
 ## Tools
 
@@ -16,6 +18,7 @@ This package includes a set of validators that I’ve developed for aggressive a
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
 - [referencedDocumentRequires](#referencedDocumentRequires)
+- [maxDepth](#maxDepth)
 
 ## Examples
 
@@ -68,14 +71,14 @@ const ImageWithCaption = defineType({
 })
 ```
 
-You can also enforce on only one dimension:
+You can also enforce on only one dimension, or feed a custom error message:
 
 ```typescript
 defineField({
   name: "image",
   type: "image",
   description: "At least 100px wide; as tall as you like.",
-  validation: (rule) => rule.custom(minDimensions({ x: 100 })),
+  validation: (rule) => rule.custom(minDimensions({ x: 100 }, "Uh oh! Your image is smaller than {x} pixels wide!")),
 })
 ```
 
@@ -279,24 +282,18 @@ defineType({
 })
 ```
 
-If you named your slug something else…
+And this can apply to multiple slugs…
 
 ```typescript
-;[
-  defineField({
-    name: "derp",
-    type: "slug",
-  }),
-  defineField({
-    name: "questionsAndAnswers",
-    validation: (rule) => rule.custom(requiredIfSlugEq("faq", "derp")),
-  }),
-]
+defineField({
+  name: "questionsAndAnswers",
+  validation: (rule) => rule.custom(requiredIfSlugEq(["faq", "about"])),
+}),
 ```
 
 ### requiredIfSlugNeq
 
-Require fields on pages that don't match a particular slug.
+Require fields on pages that don't match one or more slugs.
 
 ```typescript
 import {requiredIfSlugNeq} from 'sanity-advanced-validation'
@@ -409,9 +406,7 @@ const navLink = defineType({
 
 This will enforce that a subnav list can embed in a subnav, which can also be embedded in a subnav — but no further.
 
-#### Note to any Sanity dev who looks at this
-
-I’d love to include similar logic on my `hidden:` attribute, but I don’t think that’t possible without a `path` array in the `hidden` context that’s similar to the one fed to the `ValidationContext` (todo: type this correctly). Wouldn’t this be cool?
+_Note to any Sanity dev who looks at this_: I’d love to include similar logic on my `hidden:` attribute, but I don’t think that’t possible without a `path` array in the `hidden` context that’s similar to the one fed to the `ValidationContext` (todo: type this correctly). Wouldn’t this be cool?
 
 ```typescript
 defineField({

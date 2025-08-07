@@ -33,16 +33,28 @@ validation: (rule) => rule.custom(requiredIfPeerEquals(['vanilla'], 'favoriteIce
 Sounds neat, but I have no need for that right now.
 */
 
-export const requiredIfSlugEq =
-  (slug: Array<string> | string, slugKey = "slug") =>
+export const requiredIfSlugEq = (
+  slug: Array<string> | string, 
+  slugKey = "slug", 
+  message: string = `This is a required field.`
+) =>
   (value: string | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    return !value && slugs.includes((context.parent as any)[slugKey]?.current) ? `This is a required field.` : true
+    if (!value && slugs.includes((context.parent as any)[slugKey]?.current)) {
+      return message.replace("{slugKey}", slugKey).replace("slug", slugs.join(', or '))
+    }
+    return true
   }
 
-export const requiredIfSlugNeq =
-  (slug: Array<string> | string, slugKey = "slug") =>
+export const requiredIfSlugNeq = (
+  slug: Array<string> | string, 
+  slugKey = "slug", 
+  message: string = `This is a required field.`
+) =>
   (value: string | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    return !value && !slugs.includes((context.parent as any)[slugKey]?.current) ? `This is a required field.` : true
+    if (!value && !slugs.includes((context.parent as any)[slugKey]?.current)) {
+      return message.replace("{slugKey}", slugKey).replace("slug", slugs.join(', or '))
+    }
+    return true
   }
