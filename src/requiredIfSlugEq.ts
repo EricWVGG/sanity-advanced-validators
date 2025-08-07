@@ -22,15 +22,6 @@ Not possible, since the hidden state is not exposed to the context.
 
 But even if it were, you wouldn't want to. There are valid reasons to make a component required but hidden.
 ex. an admin- or developer-level identifier that you don't want civilians to see or edit.
-
-Possible future enhancement:
-All of this presumes that the unique identifier is of type "slug." In theory you could check a string, like…   
-```
-validation: (rule) => rule.custom(requiredIfPeerEquals(['vanilla'], 'favoriteIceCream'))
-```
-… that would require checking against the node instead of node.current. 
-
-Sounds neat, but I have no need for that right now.
 */
 
 export const requiredIfSlugEq = (
@@ -40,8 +31,9 @@ export const requiredIfSlugEq = (
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    if (!value && slugs.includes((context.parent as any)[slugKey]?.current)) {
-      return message.replace("{slugKey}", slugKey).replace("slug", slugs.join(', or '))
+    console.log('value?', value, slugs, context )
+    if (!value && slugs.includes((context.parent as any)?.[slugKey]?.current)) {
+      return message.replace("{slugKey}", slugKey).replace("{slug}", slugs.join(', or '))
     }
     return true
   }
@@ -53,8 +45,8 @@ export const requiredIfSlugNeq = (
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    if (!value && !slugs.includes((context.parent as any)[slugKey]?.current)) {
-      return message.replace("{slugKey}", slugKey).replace("slug", slugs.join(', or '))
+    if (!value && !slugs.includes((context.parent as any)?.[slugKey]?.current)) {
+      return message.replace("{slugKey}", slugKey).replace("{slug}", slugs.join(', or '))
     }
     return true
   }

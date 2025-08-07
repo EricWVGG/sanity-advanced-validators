@@ -35,27 +35,28 @@ That shouldn't matter, but dealing with that and remapping peerKey as a PathSegm
 
 export const requiredIfPeerEq = (
   key: string, 
-  value: string | number | null | Array<string | number | null>, 
-  message?: string = 'Required if {key} equals {value}.'
+  comparison: string | number | null | Array<string | number | null>, 
+  message: string = 'Required if {key} equals {value}.'
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const peer = getPeer(key, context)
-    const values = !value.isArray ? [value] : value
-    if(!value && value.includes(peer)) {
-      return message.replace('{key}', key).replace({value}, value ?? 'null' )
+    const comparisons = Array.isArray(comparison) ? comparison : [comparison]
+    if (!value && comparisons.includes(peer)) {
+      return message.replace('{key}', key).replace('{value}', comparisons.join(', or ') ?? 'null')
     }
     return true
   }
 
 export const requiredIfPeerNeq = (
   key: string, 
-  value: string | number | null | Array<string | number | null>, 
-  message?: string = 'Required if {key} does not equal {value}.'
+  comparison: string | number | null | Array<string | number | null>, 
+  message: string = 'Required if {key} does not equal {value}.'
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const peer = getPeer(key, context)
-    if(!value && !value.includes(peer)) {
-      return message.replace('{key}', key).replace({value}, value ?? 'null' )
+    const comparisons = Array.isArray(comparison) ? comparison : [comparison]
+    if(!value && !comparisons.includes(peer)) {
+      return message.replace('{key}', key).replace('{value}', comparisons.join(', or ') ?? 'null' )
     }
     return true
   }
