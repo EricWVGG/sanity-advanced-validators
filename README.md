@@ -15,7 +15,6 @@ Note that every validator can accept an optional custom error message as its las
 - [requiredIfPeerNeq](#requiredIfPeerNeq)
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
-- [requiredIfSlugNeq](#requiredIfSlugNeq)
 - [referencedDocumentRequires](#referencedDocumentRequires)
 - [maxDepth](#maxDepth)
 
