@@ -1,6 +1,5 @@
 export * from "./referencedDocumentRequires"
-export * from "./fileType"
-export * from "./getPeer"
+export * from "./fileExtension"
 export * from "./minDimensions"
 export * from "./maxDepth"
 export * from "./requiredIfPeerIs"

@@ -6,7 +6,7 @@ This package includes a set of validators that I’ve developed for aggressive a
 
 ## Tools
 
-- [fileType](#fileType)
+- [fileExtension](#fileExtension)
 - [minDimensions](#minDimensions)
 - [maxDimensions](#maxDimensions)
 - [requiredIfPeerEq](#requiredIfPeerEq)
@@ -24,7 +24,7 @@ This package includes a set of validators that I’ve developed for aggressive a
 Enforces that an uploaded file asset is of a certain format.
 
 ```typescript
-import { fileType } from "sanity-advanced-validation"
+import { fileExtension } from "sanity-advanced-validation"
 
 const Page = defineType({
   name: "page",
@@ -38,7 +38,7 @@ const Page = defineType({
     defineField({
       name: "video",
       type: "file",
-      validation: (rule) => rule.custom(fileType(["mp4", "mov", "webm"])),
+      validation: (rule) => rule.custom(fileExtension(["mp4", "mov", "webm"])),
     }),
   ],
 })
