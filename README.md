@@ -33,7 +33,7 @@ const Page = defineType({
       name: "someVideoFile",
       type: "file",
       validation: (rule) =>
-        rule.requiredIfSlugEq('about')
+        rule.custom(requiredIfSlugEq('about'))
           .custom(fileExtension(['mp4', 'mov']))
     })
     defineField({
@@ -41,7 +41,7 @@ const Page = defineType({
       type: "image",
       hidden: ({ parent }) => parent.someVideoFile === null,
       validation: (rule) =>
-        rule.requiredIfPeerNeq('someVideoFile', null)
+        rule.custom(requiredIfPeerNeq('someVideoFile', null))
           .custom(minDimensions({ x: 1250, y: 800 }))
           .custom(maxDimensions({ x: 2500, y: 1600 })),
     })
