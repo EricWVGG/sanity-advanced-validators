@@ -12,7 +12,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
     "declaration": true,
     "declarationDir": "types",
     "emitDeclarationOnly": true,
