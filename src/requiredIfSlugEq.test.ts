@@ -14,21 +14,21 @@ function makeContext(slugValue?: string, slugKey: string = "slug"): ValidationCo
 }
 
 describe("requiredIfSlugEq", () => {
-//   it("returns true if value is present regardless of slug", () => {
-//     const fn = requiredIfSlugEq("alpha")
-//     expect(fn("some value", makeContext("alpha"))).toBe(true)
-//     expect(fn("some value", makeContext("beta"))).toBe(true)
-//   })
+  it("returns true if value is present regardless of slug", () => {
+    const fn = requiredIfSlugEq("alpha")
+    expect(fn("some value", makeContext("alpha"))).toBe(true)
+    expect(fn("some value", makeContext("beta"))).toBe(true)
+  })
 
-//   it("returns true if slug does not match comparison", () => {
-//     const fn = requiredIfSlugEq("alpha")
-//     expect(fn(undefined, makeContext("beta"))).toBe(true)
-//   })
+  it("returns true if slug does not match comparison", () => {
+    const fn = requiredIfSlugEq("alpha")
+    expect(fn(undefined, makeContext("beta"))).toBe(true)
+  })
 
-//   it("returns true if slug is undefined", () => {
-//     const fn = requiredIfSlugEq("alpha")
-//     expect(fn(undefined, makeContext("alpha"))).toBe(true)
-//   })
+  it("returns true if slug is undefined", () => {
+    const fn = requiredIfSlugEq("alpha")
+    expect(fn(undefined, makeContext(undefined))).toBe(true)
+  })
 
   it("supports array of slugs", () => {
     const fn = requiredIfSlugEq(["alpha", "beta"])

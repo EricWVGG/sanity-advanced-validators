@@ -1,11 +1,11 @@
 {
   "dependencies": {
     "@sanity/asset-utils": "^2.2.1",
-    "lodash-es": "^4.17.21",
-    "sanity": "^4.3.0"
+    "lodash-es": "^4.0.0",
+    "sanity": "^4.0.0"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.12",
+    "@types/lodash-es": "^4.0.0",
     "vitest": "^3.2.4"
   }
 }

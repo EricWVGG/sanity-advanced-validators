@@ -31,8 +31,8 @@ export const requiredIfSlugEq = (
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    console.log('value?', value, slugs, context )
-    if (!value && slugs.includes((context.parent as any)?.[slugKey]?.current)) {
+    const currentSlugValue = (context.parent as any)?.[slugKey]?.current
+    if (!value && !!currentSlugValue && slugs.includes(currentSlugValue)) {
       return message.replace("{slugKey}", slugKey).replace("{slug}", slugs.join(', or '))
     }
     return true
@@ -45,7 +45,8 @@ export const requiredIfSlugNeq = (
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    if (!value && !slugs.includes((context.parent as any)?.[slugKey]?.current)) {
+    const currentSlugValue = (context.parent as any)?.[slugKey]?.current
+    if (!value && !!currentSlugValue && !slugs.includes(currentSlugValue)) {
       return message.replace("{slugKey}", slugKey).replace("{slug}", slugs.join(', or '))
     }
     return true
