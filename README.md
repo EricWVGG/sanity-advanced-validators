@@ -9,8 +9,8 @@ Note that every validator can accept an optional custom error message as its las
 - [fileExtension](#fileExtension)
 - [minDimensions](#minDimensions)
 - [maxDimensions](#maxDimensions)
-- [requiredIfPeerEq](#requiredIfPeerEq)
-- [requiredIfPeerNeq](#requiredIfPeerNeq)
+- [requiredIfSiblingEq](#requiredIfSiblingEq)
+- [requiredIfSiblingNeq](#requiredIfSiblingNeq)
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
 - [referencedDocumentRequires](#referencedDocumentRequires)
@@ -41,7 +41,7 @@ const Page = defineType({
       type: "image",
       hidden: ({ parent }) => parent.someVideoFile === null,
       validation: (rule) =>
-        rule.custom(requiredIfPeerNeq('someVideoFile', null))
+        rule.custom(requiredIfSiblingNeq('someVideoFile', null))
           .custom(minDimensions({ x: 1250, y: 800 }))
           .custom(maxDimensions({ x: 2500, y: 1600 })),
     })
@@ -155,14 +155,14 @@ defineField({
 })
 ```
 
-### requiredIfPeerEq
+### requiredIfSiblingEq
 
-For a given object that has multiple fields, mark a field as `required` if a peer has a particular value.
+For a given object that has multiple fields, mark a field as `required` if a sibling has a particular value.
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
 ```typescript
-import {requiredIfPeerEq} from 'sanity-advanced-validation'
+import {requiredIfSiblingEq} from 'sanity-advanced-validation'
 
 defineType({
   name: 'person',
@@ -188,7 +188,7 @@ defineType({
         ]
       }
       hidden: ({parent}) => parent.occuption !== 'software engineer',
-      validation: rule => rule.custom(requiredIfPeerEq('occupation', 'software engineer'))
+      validation: rule => rule.custom(requiredIfSiblingEq('occupation', 'software engineer'))
     }),
   ],
 })
@@ -212,7 +212,7 @@ defineType({
     defineField({
       name: 'phone',
       type: 'string',
-      validation: rule => rule.custom(requiredIfPeerEq(
+      validation: rule => rule.custom(requiredIfSiblingEq(
         'email', 
         null, 
         "If you don’t have an email address, please provide a phone number."
@@ -253,7 +253,7 @@ defineType({
           description: 'Why are you wasting your life this way?',
           type: 'text',
           hidden: ({parent}) => parent.occuption === 'software engineer',
-          validation: rule => rule.custom(requiredIfPeerEq('occupation', ['doctor', 'lawyer']))
+          validation: rule => rule.custom(requiredIfSiblingEq('occupation', ['doctor', 'lawyer']))
         })
       ],
     })
@@ -261,14 +261,14 @@ defineType({
 })
 ```
 
-### requiredIfPeerNeq
+### requiredIfSiblingNeq
 
-For a given object that has multiple fields, mark a field as `required` if a peer does _not_ have a particular value.
+For a given object that has multiple fields, mark a field as `required` if a sibling does _not_ have a particular value.
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugNeq validator](#requiredIfSlugNeq) instead.
 
 ```typescript
-import {requiredIfPeerNeq} from 'sanity-advanced-validation'
+import {requiredIfSiblingNeq} from 'sanity-advanced-validation'
 
 defineType({
   name: 'person',
@@ -290,7 +290,7 @@ defineType({
       description: 'Why are you wasting your life this way?',
       type: 'text',
       hidden: ({parent}) => parent.occuption === 'software engineer',
-      validation: rule => rule.custom(requiredIfPeerNeq('occupation', 'software engineer'))
+      validation: rule => rule.custom(requiredIfSiblingNeq('occupation', 'software engineer'))
     }),
   ],
 })
@@ -465,15 +465,15 @@ defineField({
 
 ## Extending these and writing your own
 
-Most of these validators rely on a function called `getPeer()`. If you’re thinking about picking this apart and writing your own custom validator, take a close look at how these validators use it.
+Most of these validators rely on a function called `getSibling()`. If you’re thinking about picking this apart and writing your own custom validator, take a close look at how these validators use it.
 
 ## Upcoming
 
-Since building the `requiredIfSlugEq` validator, I took to putting my slugs in a metadata object. I need to update it to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
+Since building these validator, I took to putting my slugs in a metadata object. I need to update `requiredIfSlugEq` to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
 
-This pathfinding should be added to any validator that takes a peer, like `requiredIfPeerEq`. It can probably be snapped into `getPeer`.
+This pathfinding should be added to any validator that takes a sibling, like `requiredIfSiblingEq`. It can probably be snapped into `getSibling`.
 
-While I’m at it, there’s a possibility that `getPeer` could detect the target type. If that type is `slug`, then it could add `current` to the path, and then I can deprecate `requiredIfSlugEq` altogether.
+While I’m at it, there’s a possibility that `getSibling` could detect the target type. If that type is `slug`, then it could add `current` to the path, and then I can deprecate `requiredIfSlugEq` altogether.
 
 ## MOAR
 

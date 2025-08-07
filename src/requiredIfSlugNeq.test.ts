@@ -3,7 +3,7 @@ import { requiredIfSlugNeq } from "./requiredIfSlugNeq"
 import { ValidationContext } from 'sanity'
 
 function makeContext(slugValue?: string, slugKey: string = "slug"): ValidationContext {
-    // todo: requiredIfPeerEq uses context.document, while requiredIfSlugEq uses context.parent
+    // todo: requiredIfSiblingEq uses context.document, while requiredIfSlugEq uses context.parent
     return {
         parent: {
             [slugKey]: {

@@ -1,1 +1,1 @@
-export * from "./getPeer"
+export * from "./getSibling"

@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from "vitest"
-import { requiredIfPeerEq } from "./requiredIfPeerEq"
+import { requiredIfSiblingEq } from "./requiredIfSiblingEq"
 import { ValidationContext } from 'sanity'
 
-// Mock getPeer to control peer value in tests
+// Mock getSibling to control sibling value in tests
 vi.mock("./", () => ({
-  getPeer: (key: string, context: any) => context?.document?.[key]
+  getSibling: (key: string, context: any) => context?.document?.[key]
 }))
 
 function makeContext(key: string, value: string): ValidationContext {
@@ -15,31 +15,31 @@ function makeContext(key: string, value: string): ValidationContext {
     } as ValidationContext
 }
 
-describe("requiredIfPeerEq", () => {
-  it("returns true if value is present regardless of peer", () => {
-    const fn = requiredIfPeerEq("alpha", "left")
+describe("requiredIfSiblingEq", () => {
+  it("returns true if value is present regardless of sibling", () => {
+    const fn = requiredIfSiblingEq("alpha", "left")
     expect(fn("some value", makeContext("alpha", "left"))).toBe(true)
     expect(fn("some value", makeContext("alpha", "right"))).toBe(true)
   })
 
-  it("returns true if peer does not match comparison", () => {
-    const fn = requiredIfPeerEq("alpha", "left")
+  it("returns true if sibling does not match comparison", () => {
+    const fn = requiredIfSiblingEq("alpha", "left")
     expect(fn(undefined, makeContext("alpha", "right"))).toBe(true)
   })
 
-  it("returns error message if value is missing and peer matches comparison", () => {
-    const fn = requiredIfPeerEq("alpha", "left")
+  it("returns error message if value is missing and sibling matches comparison", () => {
+    const fn = requiredIfSiblingEq("alpha", "left")
     expect(fn(undefined, makeContext("alpha", "left"))).toBe("Required if alpha equals left.")
   })
 
   it("supports array of comparisons", () => {
-    const fn = requiredIfPeerEq("alpha", ["left", "center"])
+    const fn = requiredIfSiblingEq("alpha", ["left", "center"])
     expect(fn(undefined, makeContext("alpha", "center"))).toBe("Required if alpha equals left, or center.")
     expect(fn(undefined, makeContext("alpha", "right"))).toBe(true)
   })
 
   it("supports custom message", () => {
-    const fn = requiredIfPeerEq("alpha", "left", "Custom: {key}={value}")
+    const fn = requiredIfSiblingEq("alpha", "left", "Custom: {key}={value}")
     expect(fn(undefined, makeContext("alpha", "left"))).toBe("Custom: alpha=left")
   })
 })
