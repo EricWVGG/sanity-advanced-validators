@@ -60,7 +60,12 @@ describe("requiredIfSlugNeq", () => {
     const fn = requiredIfSlugNeq("alpha")
     expect(fn(undefined, makeContext("alpha"))).toBe(true)
   })
-
+  
+  it("returns error message if slug is undefined", () => {
+    const fn = requiredIfSlugNeq("alpha")
+    expect(fn(undefined, makeContext(undefined))).toBe("This is a required field.")
+  })
+  
   it("returns error message if value is missing and slug does not match comparison", () => {
     const fn = requiredIfSlugNeq("alpha")
     expect(fn(undefined, makeContext("beta"))).toBe("This is a required field.")
