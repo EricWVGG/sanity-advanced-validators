@@ -1,7 +1,5 @@
 # Sanity Advanced Validators
 
-(note: this is a WIP, I don’t know a lot about publishing NPM packages, hopefully coming soon)
-
 This package includes a set of Sanity validators for aggressive and weird edge cases. Please let me know if you find these helpful!
 
 Note that every validator can accept an optional custom error message as its last parameter. `minDimensions` lists one example; all the others work the same way.

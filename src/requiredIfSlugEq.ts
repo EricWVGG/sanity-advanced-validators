@@ -32,6 +32,10 @@ export const requiredIfSlugEq = (
   (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
     const currentSlugValue = (context.parent as any)?.[slugKey]?.current
+    
+    // todo: does slugKey exist? If not, fail.
+    // todo: deal with nested slugKey (ex. metadata.slug)
+    
     if (!value && !!currentSlugValue && slugs.includes(currentSlugValue)) {
       return message.replace("{slugKey}", slugKey).replace("{slug}", slugs.join(', or '))
     }
