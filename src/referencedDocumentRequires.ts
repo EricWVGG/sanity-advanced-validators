@@ -12,7 +12,6 @@ export const referencedDocumentRequires = (
   // todo: use current API version, or test with no version at all
 
   // todo: if there's a value._type or value.referenced._type or something, we get rid of document.type from inputs
-  // todo: why is typescript complaining about this? client.fetch takes a query parameter.
   const data = await client.fetch(`
     *[_type == "${documentType}" && _id == "${value._ref}"]{
       ${field}

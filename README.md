@@ -18,6 +18,39 @@ Note that every validator can accept an optional custom error message as its las
 - [referencedDocumentRequires](#referencedDocumentRequires)
 - [maxDepth](#maxDepth)
 
+## Mega-example
+
+Imagine that you’ve got a document with an optional video file. It's required on the `/about` page. If a video ever exists, it must either MP4 or MOV, and have a poster image that's between 1250x800 and 2500x1600 in size.
+
+```typescript
+const Page = defineType({
+  name: "page",
+  type: "document",
+  fields: [
+    defineField({
+      name: 'slug',
+      type: 'slug'
+    }),
+    defineField({
+      name: "someVideoFile",
+      type: "file",
+      validation: (rule) =>
+        rule.requiredIfSlugEq('about')
+          .custom(fileExtension(['mp4', 'mov']))
+    })
+    defineField({
+      name: "posterImage",
+      type: "image",
+      hidden: ({ parent }) => parent.someVideoFile === null,
+      validation: (rule) =>
+        rule.requiredIfPeerNeq('someVideoFile', null)
+          .custom(minDimensions({ x: 1250, y: 800 }))
+          .custom(maxDimensions({ x: 2500, y: 1600 })),
+    })
+  ]
+})
+```
+
 ## Examples
 
 ### fileType
@@ -76,7 +109,12 @@ defineField({
   name: "image",
   type: "image",
   description: "At least 100px wide; as tall as you like.",
-  validation: (rule) => rule.custom(minDimensions({ x: 100 }, "Uh oh! Your image is smaller than {x} pixels wide!")),
+  validation: (rule) => rule.custom(
+    minDimensions(
+      { x: 100 }, 
+      "Uh oh, your image is {width} pixels wide. That’s less than {x}!"
+    )
+  ),
 })
 ```
 
@@ -104,7 +142,7 @@ const ImageWithCaption = defineType({
 })
 ```
 
-Note that all validators can be chained!
+Chain for min and max dimensions:
 
 ```typescript
 defineField({
@@ -114,7 +152,7 @@ defineField({
   validation: (rule) =>
     rule
       .required()
-      .custom(minDimensions({ x: 100, y: 100 }))
+      .custom(minDimensions({ x: 1000, y: 1000 }))
       .custom(maxDimensions({ x: 2000, y: 2000 })),
 })
 ```
