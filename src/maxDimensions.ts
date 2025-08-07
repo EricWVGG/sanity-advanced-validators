@@ -16,3 +16,5 @@ export const maxDimensions =
     }
     return true
   }
+
+// todo: this should fail if its attached to a field that is not of type "image"
