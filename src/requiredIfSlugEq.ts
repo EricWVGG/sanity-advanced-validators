@@ -35,10 +35,10 @@ Sounds neat, but I have no need for that right now.
 
 export const requiredIfSlugEq = (
   slug: Array<string> | string, 
-  slugKey = "slug", 
+  slugKey: string = "slug", 
   message: string = `This is a required field.`
 ) =>
-  (value: string | undefined, context: ValidationContext) => {
+  (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
     if (!value && slugs.includes((context.parent as any)[slugKey]?.current)) {
       return message.replace("{slugKey}", slugKey).replace("slug", slugs.join(', or '))
@@ -48,10 +48,10 @@ export const requiredIfSlugEq = (
 
 export const requiredIfSlugNeq = (
   slug: Array<string> | string, 
-  slugKey = "slug", 
+  slugKey: string = "slug", 
   message: string = `This is a required field.`
 ) =>
-  (value: string | undefined, context: ValidationContext) => {
+  (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
     if (!value && !slugs.includes((context.parent as any)[slugKey]?.current)) {
       return message.replace("{slugKey}", slugKey).replace("slug", slugs.join(', or '))

@@ -13,9 +13,8 @@ Note that every validator can accept an optional custom error message as its las
 - [maxDimensions](#maxDimensions)
 - [requiredIfPeerEq](#requiredIfPeerEq)
 - [requiredIfPeerNeq](#requiredIfPeerNeq)
-- [requiredIfPeerIsTruthy](#requiredIfPeerIsTruthy)
-- [requiredIfPeerIsFalsey](#requiredIfPeerIsFalsey)
 - [requiredIfSlugEq](#requiredIfSlugEq)
+- [requiredIfSlugNeq](#requiredIfSlugNeq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
 - [referencedDocumentRequires](#referencedDocumentRequires)
 - [maxDepth](#maxDepth)
@@ -125,6 +124,8 @@ defineField({
 
 For a given object that has multiple fields, mark a field as `required` if a peer has a particular value.
 
+_note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
+
 ```typescript
 import {requiredIfPeerEq} from 'sanity-advanced-validation'
 
@@ -158,9 +159,78 @@ defineType({
 })
 ```
 
+This also works for null. It’s very effective!
+
+```typescript
+defineType({
+  name: 'person',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'name',
+      type: 'string'
+    }),
+    defineField({
+      name: 'email',
+      type: 'string',
+    })
+    defineField({
+      name: 'phone',
+      type: 'string',
+      validation: rule => rule.custom(requiredIfPeerEq(
+        'email', 
+        null, 
+        "If you don’t have an email address, please provide a phone number."
+      ))
+    })
+  ],
+})
+```
+
+And it even works for arrays.
+
+```typescript
+defineType({
+  name: 'person',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'name',
+      type: 'string'
+    }),
+    defineType({
+      name: 'person',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'name',
+          type: 'string'
+        }),
+        defineField({
+          name: 'occupation',
+          type: 'string',
+          options: {
+            list: ['doctor', 'lawyer', 'software engineer']
+          }
+        }),
+        defineField({
+          name: 'explanation',
+          description: 'Why are you wasting your life this way?',
+          type: 'text',
+          hidden: ({parent}) => parent.occuption === 'software engineer',
+          validation: rule => rule.custom(requiredIfPeerEq('occupation', ['doctor', 'lawyer']))
+        })
+      ],
+    })
+  ],
+})
+```
+
 ### requiredIfPeerNeq
 
 For a given object that has multiple fields, mark a field as `required` if a peer does _not_ have a particular value.
+
+_note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugNeq validator](#requiredIfSlugNeq) instead.
 
 ```typescript
 import {requiredIfPeerNeq} from 'sanity-advanced-validation'
@@ -186,69 +256,6 @@ defineType({
       type: 'text',
       hidden: ({parent}) => parent.occuption === 'software engineer',
       validation: rule => rule.custom(requiredIfPeerNeq('occupation', 'software engineer'))
-    }),
-  ],
-})
-```
-
-### requiredIfPeerIsTruthy
-
-For a given object that has multiple fields, mark a field as `required` if another has any value at all (i.e. not-null).
-
-```typescript
-import { requiredIfPeerIsTruthy } from "sanity-advanced-validation"
-
-defineType({
-  name: "possiblyAnonymousPerson",
-  type: "object",
-  fields: [
-    defineField({
-      name: "firstName",
-      type: "string",
-    }),
-    defineField({
-      name: "lastName",
-      type: "string",
-      placeholder: "If first name is filled in, last name is also required",
-      validation: (rule) => rule.custom(requiredIfPeerIsTruthy("firstName")),
-    }),
-  ],
-})
-```
-
-Since a rule like this necessarily comes in pairs, you may want to enforce it on both sides:
-
-```typescript
-…
-defineField({
-  name: 'firstName',
-  type: 'string',
-  placeholder: 'If last name is filled in, first name is also required',
-  validation: (rule) => rule.custom(requiredIfPeerIsTruthy('lastName')),
-}),
-…
-```
-
-### requiredIfPeerIsFalsey
-
-For a given object that has multiple fields, mark a field as `required` if another has no value (i.e. false or null).
-
-```typescript
-import { requiredIfPeerIsFalsey } from "sanity-advanced-validation"
-
-defineType({
-  name: "possiblyAnonymousPerson",
-  type: "object",
-  fields: [
-    defineField({
-      name: "firstName",
-      type: "string",
-    }),
-    defineField({
-      name: "pseudonym",
-      type: "string",
-      placeholder: "If first name is not filled in, a pseudonym is required.",
-      validation: (rule) => rule.custom(requiredIfPeerIsFalsey("firstName")),
     }),
   ],
 })

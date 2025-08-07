@@ -33,18 +33,38 @@ Incidentally, context.path is technically Array<sanity.PathSegment>.
 That shouldn't matter, but dealing with that and remapping peerKey as a PathSegment could be a possible future enhancement.
 */
 
-export const requiredIfPeerEq =
-  (key: string | number, comparisonString: string, message?: string) =>
-  (value: Array<unknown> | string | undefined, context: ValidationContext) => {
+export const requiredIfPeerEq = (
+  key: string, 
+  value: string | number | null | Array<string | number | null>, 
+  message?: string = 'Required if {key} equals {value}.'
+) =>
+  (value: unknown | undefined, context: ValidationContext) => {
     const peer = getPeer(key, context)
-    const outputMessage = !!message ? message : 'Required'
-    return !value && peer === comparisonString ? outputMessage : true
+    const values = !value.isArray ? [value] : value
+    if(!value && value.includes(peer)) {
+      return message.replace('{key}', key).replace({value}, value ?? 'null' )
+    }
+    return true
   }
 
-export const requiredIfPeerNeq =
-  (key: string | number, comparisonString: string, message?: string) =>
-  (value: Array<unknown> | string | undefined, context: ValidationContext) => {
+export const requiredIfPeerNeq = (
+  key: string, 
+  value: string | number | null | Array<string | number | null>, 
+  message?: string = 'Required if {key} does not equal {value}.'
+) =>
+  (value: unknown | undefined, context: ValidationContext) => {
     const peer = getPeer(key, context)
-    const outputMessage = !!message ? message : 'Required'
-    return !value && peer !== comparisonString ? outputMessage : true
+    if(!value && !value.includes(peer)) {
+      return message.replace('{key}', key).replace({value}, value ?? 'null' )
+    }
+    return true
   }
+
+
+
+
+
+
+
+
+
