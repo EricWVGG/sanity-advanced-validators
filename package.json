@@ -1,4 +1,25 @@
 {
+  "package-name": "sanity-advanced-validators",
+  "version": "0.0.1",
+  "description": "Advanced input validation tools for Sanity CMS.",
+  "author": "Eric_WVGG",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EricWVGG/sanity-advanced-validators.git"
+  },
+  "keywords": [
+    "Sanity",
+    "validator",
+    "validation"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+      "dist"
+   ],
   "dependencies": {
     "@sanity/asset-utils": "^2.2.1",
     "lodash-es": "^4.0.0",
@@ -6,6 +27,17 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
     "vitest": "^3.2.4"
-  }
+  },
+  "name": "sanity-advanced-validators",
+  "scripts": {
+    "test": "npx vitest",
+    "build": "tsup"
+  },
+  "bugs": {
+    "url": "https://github.com/EricWVGG/sanity-advanced-validators/issues"
+  },
+  "homepage": "https://github.com/EricWVGG/sanity-advanced-validators#readme"
 }
