@@ -467,6 +467,14 @@ defineField({
 
 Most of these validators rely on a function called `getPeer()`. If you’re thinking about picking this apart and writing your own custom validator, take a close look at how these validators use it.
 
+## Upcoming
+
+Since building the `requiredIfSlugEq` validator, I took to putting my slugs in a metadata object. I need to update it to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
+
+This pathfinding should be added to any validator that takes a peer, like `requiredIfPeerEq`. It can probably be snapped into `getPeer`.
+
+While I’m at it, there’s a possibility that `getPeer` could detect the target type. If that type is `slug`, then it could add `current` to the path, and then I can deprecate `requiredIfSlugEq` altogether.
+
 ## MOAR
 
 Do you have any ideas or edge cases that these validators don’t cover? Leave an issue, maybe I can hack it out.
