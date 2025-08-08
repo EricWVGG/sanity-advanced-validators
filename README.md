@@ -149,7 +149,7 @@ defineField({
 
 For a given object that has multiple fields, mark a field as `required` if a sibling has a particular value.
 
-This is really handy if you have a field that is hidden circumstances, but need to make it `required()` when it’s visible! This is probably the validator I use most.
+This is handy if you have a field that is hidden under some circumstances, but you need to make it `required()` when it’s visible. *This is the validator we use most.*
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
