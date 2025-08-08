@@ -159,6 +159,8 @@ defineField({
 
 For a given object that has multiple fields, mark a field as `required` if a sibling has a particular value.
 
+This is really handy if you have a field that is hidden circumstances, but need to make it `required()` when it’s visible!
+
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
 ```typescript
@@ -186,9 +188,9 @@ defineType({
         list: [
           'javascript', 'rust', 'python', 'swift'
         ]
-      }
+      },
+      validation: rule => rule.custom(requiredIfSiblingEq('occupation', 'software engineer')),
       hidden: ({parent}) => parent.occuption !== 'software engineer',
-      validation: rule => rule.custom(requiredIfSiblingEq('occupation', 'software engineer'))
     }),
   ],
 })
@@ -252,8 +254,8 @@ defineType({
           name: 'explanation',
           description: 'Why are you wasting your life this way?',
           type: 'text',
+          validation: rule => rule.custom(requiredIfSiblingEq('occupation', ['doctor', 'lawyer'])),
           hidden: ({parent}) => parent.occuption === 'software engineer',
-          validation: rule => rule.custom(requiredIfSiblingEq('occupation', ['doctor', 'lawyer']))
         })
       ],
     })
@@ -287,9 +289,8 @@ defineType({
     })
     defineField({
       name: 'why',
-      description: 'Why are you wasting your life this way?',
-      type: 'text',
-      hidden: ({parent}) => parent.occuption === 'software engineer',
+      description: 'How many years will you spend paying off your degree?',
+      type: 'number',
       validation: rule => rule.custom(requiredIfSiblingNeq('occupation', 'software engineer'))
     }),
   ],
@@ -317,7 +318,7 @@ defineType({
       of: [
         {type: 'qaItem'}
       ],
-      validation: rule => rule.custom(requiredIfSlugEq('faq'))
+      validation: rule => rule.custom(requiredIfSlugEq('faq')),
       hidden: ({parent}) => parent.slug.current !== 'faq'
     })
   ]
@@ -350,12 +351,12 @@ defineType({
     }),
     defineField({
       name: 'subnav',
-      description: 'Subnav is required on documents that aren't '/home'`,
+      description: `Subnav is required on documents that aren’t '/home'`,
       type: 'array',
       of: [
         {type: 'navLink'}
       ],
-      validation: rule => rule.custom(requiredIfSlugNeq('home'))
+      validation: rule => rule.custom(requiredIfSlugNeq('home')),
       hidden: ({parent}) => parent.slug.current !== 'home'
     })
   ]
