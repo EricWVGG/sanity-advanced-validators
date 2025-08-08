@@ -486,12 +486,10 @@ Some of the other checks should probably make sure the field is _not_ `image` or
 
 ### new referencedDocumentFieldEq validator
 
-Would replace `referencedDocumentRequires`.
-
 ```
 // only articles by Jimmy Olsen
 rule => rule.custom(referencedDocumentFieldEq('article', 'author', 'Jimmy Olsen'))
-// only articles whose authors are not null
+// only articles whose authors are not null. replaces  `referencedDocumentRequires`.
 rule => rule.custom(referencedDocumentFieldNeq('article', 'author', null))
 ```
 ## MOAR
