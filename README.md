@@ -2,7 +2,7 @@
 
 # Sanity Advanced Validators
 
-This package includes a set of Sanity validators for aggressive and weird edge cases. *Maintain sanity by micro-managing validation.*
+This package includes a set of Sanity validators for aggressive and weird edge cases. *Maintain sanity with micro-managed validation.*
 
 Note: Every validator can accept an optional custom error message as its last parameter. See [minDimensions](#minDimensions) for an example.
 
@@ -147,9 +147,9 @@ defineField({
 
 ### requiredIfSiblingEq
 
-For a given object that has multiple fields, mark a field as `required` if a sibling has a particular value.
+Mark a field as `required` if a sibling field has a particular value. This is the validator we use most. *It’s super effective!*
 
-This is handy if you have a field that is hidden under some circumstances, but you need to make it `required()` when it’s visible. *This is the validator we use most.*
+This is handy if you have a field that is hidden under some circumstances, but you need to make it `required()` when it’s visible. 
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
@@ -186,7 +186,7 @@ defineType({
 })
 ```
 
-This also works for null. It’s very effective!
+“If not that, then this.” This also works for null.
 
 ```typescript
 defineType({
