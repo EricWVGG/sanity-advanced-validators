@@ -449,7 +449,7 @@ const navLink = defineType({
 
 This will enforce that a subnav list can embed in a subnav, which can also be embedded in a subnav — but no further.
 
-_Note to any Sanity dev who looks at this_: I’d love to include similar logic on my `hidden:` attribute, but I don’t think that’t possible without a `path` array in the `hidden` context that’s similar to the one fed to the `ValidationContext` (todo: type this correctly). Wouldn’t this be cool?
+_Note to any Sanity dev who looks at this_: I’d love to include similar logic on my `hidden:` attribute, but I don’t think that’t possible without a `path` array in `hidden`’s `ConditionalPropertyCallbackContext` that’s similar to the one fed to the `ValidationContext` (todo: type this correctly). Wouldn’t this be cool?
 
 ```typescript
 defineField({
