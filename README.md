@@ -18,7 +18,7 @@ Note that every validator can accept an optional custom error message as its las
 
 ## Mega-example
 
-Imagine that you’ve got a document that has an optional video file — but it's required on the `/about` page. If the video exists, it must either MP4 or MOV, and have a poster image that's between 1250x800 and 2500x1600 in size.
+Imagine that you’ve got a document that has an optional video file — but it's required on the `/about` page. If the video exists, it must be either MP4 or MOV, and have a poster image that's between 1250x800 and 2500x1600 pixels in size.
 
 ```typescript
 const Page = defineType({
@@ -492,6 +492,7 @@ rule => rule.custom(referencedDocumentFieldEq('article', 'author', 'Jimmy Olsen'
 // only articles whose authors are not null. replaces  `referencedDocumentRequires`.
 rule => rule.custom(referencedDocumentFieldNeq('article', 'author', null))
 ```
+
 ## MOAR
 
 Do you have any ideas or edge cases that these validators don’t cover? Leave an issue, maybe I can hack it out.
