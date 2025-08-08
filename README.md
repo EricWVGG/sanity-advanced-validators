@@ -159,7 +159,7 @@ defineField({
 
 For a given object that has multiple fields, mark a field as `required` if a sibling has a particular value.
 
-This is really handy if you have a field that is hidden circumstances, but need to make it `required()` when it’s visible!
+This is really handy if you have a field that is hidden circumstances, but need to make it `required()` when it’s visible! This is probably the validator I use most.
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
@@ -470,11 +470,19 @@ Most of these validators rely on a function called `getSibling()`. If you’re t
 
 ## Upcoming
 
+### Nested pathfinders
+
 Since building these validator, I took to putting my slugs in a metadata object. I need to update `requiredIfSlugEq` to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
 
 This pathfinding should be added to any validator that takes a sibling, like `requiredIfSiblingEq`. It can probably be snapped into `getSibling`.
 
 While I’m at it, there’s a possibility that `getSibling` could detect the target type. If that type is `slug`, then it could add `current` to the path, and then I can deprecate `requiredIfSlugEq` altogether.
+
+### Image and File checks
+
+`minDimensions`, `maxDimensions`, and `fileExtension` should check to see if the field is of type `image` or `file`.
+
+Some of the other checks should probably make sure the field is _not_ `image` or `file`.
 
 ## MOAR
 
