@@ -1,8 +1,10 @@
+*🚓 Never trust a user! 👮*
+
 # Sanity Advanced Validators
 
-This package includes a set of Sanity validators for aggressive and weird edge cases. Please let me know if you find these helpful!
+This package includes a set of Sanity validators for aggressive and weird edge cases. *Maintain sanity by micro-managing validation.*
 
-Note that every validator can accept an optional custom error message as its last parameter. `minDimensions` lists one example; all the others work the same way.
+Note: Every validator can accept an optional custom error message as its last parameter. See [minDimensions](#minDimensions) for an example.
 
 ## Tools
 
@@ -19,7 +21,7 @@ Note that every validator can accept an optional custom error message as its las
 ## Mega-example
 
 Imagine that you’ve got a document that has an optional video file, but…
-- it's required on the `/about` page
+- it’s required on the `/about` page
 - if the video exists, it must be either **MP4** or **MOV**
 - and there must be a poster image that's between **1250x800** and **2500x1600** pixels in size
 
