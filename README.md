@@ -365,7 +365,7 @@ defineType({
 
 ### referencedDocumentRequires
 
-You might want to enforce some validation on a referred document. This validator enforces that a given value is not null in the referenced document.
+You might want to enforce some validation on a referenced document. This validator enforces that a given value is not null in the referenced document.
 
 ```typescript
 defineField({
@@ -484,6 +484,16 @@ While I’m at it, there’s a possibility that `getSibling` could detect the ta
 
 Some of the other checks should probably make sure the field is _not_ `image` or `file`.
 
+### new referencedDocumentFieldEq validator
+
+Would replace `referencedDocumentRequires`.
+
+```
+// only articles by Jimmy Olsen
+rule => rule.custom(referencedDocumentFieldEq('article', 'author', 'Jimmy Olsen'))
+// only articles whose authors are not null
+rule => rule.custom(referencedDocumentFieldNeq('article', 'author', null))
+```
 ## MOAR
 
 Do you have any ideas or edge cases that these validators don’t cover? Leave an issue, maybe I can hack it out.
