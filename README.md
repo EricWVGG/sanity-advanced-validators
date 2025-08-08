@@ -84,17 +84,14 @@ Enforces that an uploaded image asset is at minimum certain dimensions.
 import { minDimensions } from "sanity-advanced-validation"
 
 const ImageWithCaption = defineType({
-  name: "imageWithCaption",
+  name: "article",
   type: "object",
   fields: [
+    // …
     defineField({
-      name: "caption",
-      type: "string",
-    }),
-    defineField({
-      name: "image",
+      name: "heroImage",
       type: "image",
-      validation: (rule) => rule.custom(minDimensions({ x: 100, y: 100 })),
+      validation: (rule) => rule.custom(minDimensions({ x: 1200, y: 800 })),
     }),
   ],
 })
@@ -104,12 +101,12 @@ You can also enforce on only one dimension, or feed a custom error message:
 
 ```typescript
 defineField({
-  name: "image",
+  name: "heroImage",
   type: "image",
-  description: "At least 100px wide; as tall as you like.",
+  description: "At least 1200px wide; as tall as you like.",
   validation: (rule) => rule.custom(
     minDimensions(
-      { x: 100 }, 
+      { x: 1200 }, 
       "Uh oh, your image is {width} pixels wide. That’s less than {x}!"
     )
   ),
@@ -121,37 +118,25 @@ defineField({
 Enforces that an uploaded image asset is at most certain dimensions.
 
 ```typescript
-import { maxDimensions } from "sanity-advanced-validation"
-
-const ImageWithCaption = defineType({
-  name: "imageWithCaption",
-  type: "object",
-  fields: [
-    defineField({
-      name: "caption",
-      type: "string",
-    }),
-    defineField({
-      name: "image",
-      type: "image",
-      validation: (rule) => rule.custom(maxDimensions({ x: 2000, y: 2000 })),
-    }),
-  ],
-})
+defineField({
+  name: "heroImage",
+  type: "image",
+  validation: (rule) => rule.custom(maxDimensions({ x: 2400, y: 1600 })),
+}),
 ```
 
 Chain for min and max dimensions:
 
 ```typescript
 defineField({
-  name: "image",
+  name: "heroImage",
   type: "image",
-  description: "Min: 100x100, max: 2000x2000.",
+  description: "Min: 1200x800, max: 2400x1600.",
   validation: (rule) =>
     rule
       .required()
-      .custom(minDimensions({ x: 1000, y: 1000 }))
-      .custom(maxDimensions({ x: 2000, y: 2000 })),
+      .custom(minDimensions({ x: 1200, y: 800 }))
+      .custom(maxDimensions({ x: 2400, y: 1600 })),
 })
 ```
 
@@ -217,7 +202,7 @@ defineType({
       validation: rule => rule.custom(requiredIfSiblingEq(
         'email', 
         null, 
-        "If you don’t have an email address, please provide a phone number."
+        "If you don’t have an email address, a phone number is required."
       ))
     })
   ],
@@ -235,29 +220,23 @@ defineType({
       name: 'name',
       type: 'string'
     }),
-    defineType({
-      name: 'person',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'name',
-          type: 'string'
-        }),
-        defineField({
-          name: 'occupation',
-          type: 'string',
-          options: {
-            list: ['doctor', 'lawyer', 'software engineer']
-          }
-        }),
-        defineField({
-          name: 'explanation',
-          description: 'Why are you wasting your life this way?',
-          type: 'text',
-          validation: rule => rule.custom(requiredIfSiblingEq('occupation', ['doctor', 'lawyer'])),
-          hidden: ({parent}) => parent.occuption === 'software engineer',
-        })
-      ],
+    defineField({
+      name: 'name',
+      type: 'string'
+    }),
+    defineField({
+      name: 'occupation',
+      type: 'string',
+      options: {
+        list: ['doctor', 'lawyer', 'software engineer']
+      }
+    }),
+    defineField({
+      name: 'explanation',
+      description: 'Why are you wasting your life this way?',
+      type: 'text',
+      validation: rule => rule.custom(requiredIfSiblingEq('occupation', ['doctor', 'lawyer'])),
+      hidden: ({parent}) => parent.occuption === 'software engineer',
     })
   ],
 })
