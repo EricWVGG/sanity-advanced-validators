@@ -51,7 +51,7 @@ const Page = defineType({
 
 ## Examples
 
-### fileType
+### fileExtension
 
 Enforces that an uploaded file asset is of a certain format.
 
@@ -65,7 +65,7 @@ const Page = defineType({
     defineField({
       name: "catalog",
       type: "file",
-      validation: (rule) => rule.custom(fileType("pdf")),
+      validation: (rule) => rule.custom(fileExtension("pdf")),
     }),
     defineField({
       name: "video",
