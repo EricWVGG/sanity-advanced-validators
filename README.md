@@ -61,6 +61,11 @@ const Page = defineType({
 Enforces that an uploaded file asset is of a certain format.
 
 ```typescript
+fileType: string | Array<string>, 
+message?: string // optional custom error message; replaces {validFileExtension} with fileType (flattened)
+```
+
+```typescript
 import { fileExtension } from "sanity-advanced-validation"
 
 const Page = defineType({
@@ -81,17 +86,16 @@ const Page = defineType({
 })
 ```
 
-#### parameters
-```typescript
-fileType: string | Array<string>, 
-message?: string // optional custom error message; replaces {validFileExtension} with fileType (flattened)
-```
-
 ---
 
 ### minDimensions
 
 Enforces that an uploaded image asset is at minimum certain dimensions.
+
+```typescript
+dimensions: {x?: number, y?: number}, 
+message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
+```
 
 ```typescript
 import { minDimensions } from "sanity-advanced-validation"
@@ -126,18 +130,16 @@ defineField({
 })
 ```
 
-#### parameters
-```typescript
-dimensions: {x?: number, y?: number}, 
-message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
-```
-
 ---
-
 
 ### maxDimensions
 
 Enforces that an uploaded image asset is at most certain dimensions.
+
+```typescript
+dimensions: {x?: number, y?: number}, 
+message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
+```
 
 ```typescript
 defineField({
@@ -162,12 +164,6 @@ defineField({
 })
 ```
 
-#### parameters
-```typescript
-dimensions: {x?: number, y?: number}, 
-message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
-```
-
 ---
 
 
@@ -178,6 +174,12 @@ Mark a field as `required` if a sibling field has a particular value. This is th
 This is handy if you have a field that is hidden under some circumstances, but is `required()` when it’s visible. 
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
+
+```typescript
+key: string, // name of sibling
+operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
+message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
+```
 
 ```typescript
 import {requiredIfSiblingEq} from 'sanity-advanced-validation'
@@ -273,21 +275,19 @@ defineType({
 })
 ```
 
-#### parameters
-```typescript
-key: string, // name of sibling
-operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
-message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
-```
-
 ---
-
 
 ### requiredIfSiblingNeq
 
 For a given object that has multiple fields, mark a field as `required` if a sibling does _not_ have a particular value.
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugNeq validator](#requiredIfSlugNeq) instead.
+
+```typescript
+key: string, // name of sibling
+operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
+message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
+```
 
 ```typescript
 import {requiredIfSiblingNeq} from 'sanity-advanced-validation'
@@ -317,19 +317,17 @@ defineType({
 })
 ```
 
-#### parameters
-```typescript
-key: string, // name of sibling
-operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
-message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
-```
-
 ---
-
 
 ### requiredIfSlugEq
 
-Require for matching slugs.
+Mark a field as `required` for documents with matching slugs.
+
+```typescript
+operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
+key?: string, // name of sibling if not "slug"
+message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
+```
 
 ```typescript
 import {requiredIfSlugEq} from 'sanity-advanced-validation'
@@ -364,19 +362,18 @@ defineField({
 }),
 ```
 
-#### parameters
-```typescript
-operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
-key?: string, // name of sibling if not "slug"
-message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
-```
-
 ---
 
 
 ### requiredIfSlugNeq
 
 Require fields on pages that don't match one or more slugs.
+
+```typescript
+operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
+key?: string, // name of sibling if not "slug"
+message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
+```
 
 ```typescript
 import {requiredIfSlugNeq} from 'sanity-advanced-validation'
@@ -403,19 +400,17 @@ defineType({
 })
 ```
 
-#### parameters
-```typescript
-operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
-key?: string, // name of sibling if not "slug"
-message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
-```
-
 ---
-
 
 ### referencedDocumentRequires
 
 You might want to enforce some validation on a referenced document. This validator enforces that a given value is not null in the referenced document.
+
+```typescript
+documentType: string // type of document you’re referring to
+field: string, // name of document field that is required
+message?: string // optional custom error message; replaces {documentType} and {field} with your input
+```
 
 ```typescript
 defineField({
@@ -427,15 +422,7 @@ defineField({
 }),
 ```
 
-#### parameters
-```typescript
-documentType: string // type of document you’re referring to
-field: string, // name of document field that is required
-message?: string // optional custom error message; replaces {documentType} and {field} with your input
-```
-
 ---
-
 
 ### maxDepth
 
@@ -491,6 +478,12 @@ const navLink = defineType({
 … but your users might get a little stupid with this, and you may want to enforce navigations only going _n_ layers deep.
 
 ```typescript
+maxDepth: number // maximum "depth" of embedding (including parent)
+key: string, // name of the field that includes the cursive value (i.e. the field’s own name)
+message?: string // optional custom error message; replaces {maxDepth} and {key} with your input
+```
+
+```typescript
 import { maxDepth } from "sanity-advanced-validation"
 
 const navLink = defineType({
@@ -508,14 +501,6 @@ const navLink = defineType({
 ```
 
 This will enforce that a subnav list can embed in a subnav, which can also be embedded in a subnav — but no further.
-
-
-#### parameters
-```typescript
-maxDepth: number // maximum "depth" of embedding (including parent)
-key: string, // name of the field that includes the cursive value (i.e. the field’s own name)
-message?: string // optional custom error message; replaces {maxDepth} and {key} with your input
-```
 
 ---
 
