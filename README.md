@@ -4,8 +4,6 @@
 
 This package includes a set of Sanity validators for aggressive and weird edge cases. *Maintain sanity with micro-managed validation.*
 
-Note: Every validator can accept an optional custom error message as its last parameter. See [minDimensions](#minDimensions) for an example.
-
 ## Tools
 
 - [fileExtension](#fileExtension)
@@ -38,7 +36,8 @@ const Page = defineType({
       name: "someVideoFile",
       type: "file",
       validation: (rule) =>
-        rule.custom(requiredIfSlugEq('about'))
+      message?: string // optional custom error message; 
+        rule.custom(requiredIfSlugEq('about', 'A video is required if {slugKey} is {operand}.'))
           .custom(fileExtension(['mp4', 'mov']))
     })
     defineField({
@@ -90,7 +89,7 @@ const Page = defineType({
 
 ### minDimensions
 
-Enforces that an uploaded image asset is at minimum certain dimensions.
+Enforces that an uploaded image asset is at minimum certain dimensions. You can test on both, just x, or just y.
 
 ```typescript
 dimensions: {x?: number, y?: number}, 
@@ -111,22 +110,6 @@ const ImageWithCaption = defineType({
       validation: (rule) => rule.custom(minDimensions({ x: 1200, y: 800 })),
     }),
   ],
-})
-```
-
-You can also enforce on only one dimension, or feed a custom error message:
-
-```typescript
-defineField({
-  name: "heroImage",
-  type: "image",
-  description: "At least 1200px wide; as tall as you like.",
-  validation: (rule) => rule.custom(
-    minDimensions(
-      { x: 1200 }, 
-      "Uh oh, your image is {width} pixels wide. That’s less than {x}!"
-    )
-  ),
 })
 ```
 
