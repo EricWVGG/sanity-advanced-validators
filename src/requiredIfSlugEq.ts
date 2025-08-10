@@ -31,13 +31,16 @@ export const requiredIfSlugEq = (
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
     const slugs = typeof slug === "string" ? [slug] : slug
-    const currentSlugValue = (context.parent as any)?.[slugKey]?.current
+    const slugValue = (context.parent as any)?.[slugKey]?.current
     
     // todo: does slugKey exist? If not, fail.
     // todo: deal with nested slugKey (ex. metadata.slug)
     
-    if (!value && !!currentSlugValue && slugs.includes(currentSlugValue)) {
-      return message.replace("{slugKey}", slugKey).replace("{slug}", slugs.join(', or '))
+    if (!value && !!slugValue && slugs.includes(slugValue)) {
+      return message
+        .replace("{slugKey}", slugKey)
+        .replace("{operand}", slugs.join(', or '))
+        .replace("{siblingSlugValue}", slugValue)
     }
     return true
   }

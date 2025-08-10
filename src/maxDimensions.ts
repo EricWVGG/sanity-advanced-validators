@@ -9,10 +9,20 @@ export const maxDimensions =
     }
     const { width, height } = getImageDimensions(value.asset._ref)
     if (!!x && width > x) {
-      return message ? message.replace("{x}", x.toString()).replace("{y}", !y ? "(any)" : y.toString()) : `Image must be at most ${x} pixels wide.`
+      return message 
+        ? message.replace("{width}", width.toString())
+          .replace("{height}", height.toString())
+          .replace("{x}", x.toString())
+          .replace("{y}", !y ? "(any)" : y.toString()) 
+        : `Image must be at most ${x} pixels wide.`
     }
     if (!!y && height > y) {
-      return message ? message.replace("{x}", !x ? "(any)" : x.toString()).replace("{y}", y.toString()) : `Image must be at most ${y} pixels tall.`
+      return message 
+        ? message.replace("{width}", width.toString())
+          .replace("{height}", height.toString())
+          .replace("{x}", !x ? "(any)" : x.toString())
+          .replace("{y}", y.toString())
+        : `Image must be at most ${y} pixels tall.`
     }
     return true
   }

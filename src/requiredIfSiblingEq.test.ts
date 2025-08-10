@@ -39,7 +39,7 @@ describe("requiredIfSiblingEq", () => {
   })
 
   it("supports custom message", () => {
-    const fn = requiredIfSiblingEq("alpha", "left", "Custom: {key}={value}")
+    const fn = requiredIfSiblingEq("alpha", "left", "Custom: {key}={operand}")
     expect(fn(undefined, makeContext("alpha", "left"))).toBe("Custom: alpha=left")
   })
 })

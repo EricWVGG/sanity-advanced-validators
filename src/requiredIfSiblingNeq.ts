@@ -3,14 +3,17 @@ import {ValidationContext} from 'sanity'
 
 export const requiredIfSiblingNeq = (
   key: string, 
-  comparison: string | number | null | Array<string | number | null>, 
-  message: string = 'Required if {key} does not equal {value}.'
+  operand: string | number | null | Array<string | number | null>, 
+  message: string = 'Required if {key} does not equal {operand}.'
 ) =>
   (value: unknown | undefined, context: ValidationContext) => {
-    const sibling = getSibling(key, context)
-    const comparisons = Array.isArray(comparison) ? comparison : [comparison]
-    if(!value && !comparisons.includes(sibling)) {
-      return message.replace('{key}', key).replace('{value}', comparisons.join(', or ') ?? 'null' )
+    const siblingValue = getSibling(key, context)
+    const operands = Array.isArray(operand) ? operand : [operand]
+    if(!value && !operands.includes(siblingValue)) {
+      return message
+        .replace('{key}', key)
+        .replace('{operand}', operands.join(', or ') ?? 'null')
+        .replace('{siblingValue}', siblingValue)
     }
     return true
   }

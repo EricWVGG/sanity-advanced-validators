@@ -81,6 +81,14 @@ const Page = defineType({
 })
 ```
 
+#### parameters
+```typescript
+fileType: string | Array<string>, 
+message?: string // optional custom error message; replaces {validFileExtension} with fileType (flattened)
+```
+
+---
+
 ### minDimensions
 
 Enforces that an uploaded image asset is at minimum certain dimensions.
@@ -118,6 +126,15 @@ defineField({
 })
 ```
 
+#### parameters
+```typescript
+dimensions: {x?: number, y?: number}, 
+message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
+```
+
+---
+
+
 ### maxDimensions
 
 Enforces that an uploaded image asset is at most certain dimensions.
@@ -145,11 +162,20 @@ defineField({
 })
 ```
 
+#### parameters
+```typescript
+dimensions: {x?: number, y?: number}, 
+message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
+```
+
+---
+
+
 ### requiredIfSiblingEq
 
 Mark a field as `required` if a sibling field has a particular value. This is the validator we use most. *It’s super effective!*
 
-This is handy if you have a field that is hidden under some circumstances, but you need to make it `required()` when it’s visible. 
+This is handy if you have a field that is hidden under some circumstances, but is `required()` when it’s visible. 
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
@@ -247,6 +273,16 @@ defineType({
 })
 ```
 
+#### parameters
+```typescript
+key: string, // name of sibling
+operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
+message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
+```
+
+---
+
+
 ### requiredIfSiblingNeq
 
 For a given object that has multiple fields, mark a field as `required` if a sibling does _not_ have a particular value.
@@ -280,6 +316,16 @@ defineType({
   ],
 })
 ```
+
+#### parameters
+```typescript
+key: string, // name of sibling
+operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
+message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
+```
+
+---
+
 
 ### requiredIfSlugEq
 
@@ -318,6 +364,16 @@ defineField({
 }),
 ```
 
+#### parameters
+```typescript
+operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
+key?: string, // name of sibling if not "slug"
+message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
+```
+
+---
+
+
 ### requiredIfSlugNeq
 
 Require fields on pages that don't match one or more slugs.
@@ -347,19 +403,39 @@ defineType({
 })
 ```
 
+#### parameters
+```typescript
+operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
+key?: string, // name of sibling if not "slug"
+message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
+```
+
+---
+
+
 ### referencedDocumentRequires
 
 You might want to enforce some validation on a referenced document. This validator enforces that a given value is not null in the referenced document.
 
 ```typescript
 defineField({
-  name: 'refferedArticle',
+  name: 'referredArticle',
   description: 'An article (must include a valid poster image)',
   type: 'reference',
   to: [{type: 'article'}],
   validation: (rule) => rule.custom(referencedDocumentRequires('article', 'poster')),
 }),
 ```
+
+#### parameters
+```typescript
+documentType: string // type of document you’re referring to
+field: string, // name of document field that is required
+message?: string // optional custom error message; replaces {documentType} and {field} with your input
+```
+
+---
+
 
 ### maxDepth
 
@@ -433,7 +509,20 @@ const navLink = defineType({
 
 This will enforce that a subnav list can embed in a subnav, which can also be embedded in a subnav — but no further.
 
-_Note to any Sanity dev who looks at this_: I’d love to include similar logic on my `hidden:` attribute, but I don’t think that’t possible without a `path` array in `hidden`’s `ConditionalPropertyCallbackContext` that’s similar to the one fed to the `ValidationContext` (todo: type this correctly). Wouldn’t this be cool?
+
+#### parameters
+```typescript
+maxDepth: number // maximum "depth" of embedding (including parent)
+key: string, // name of the field that includes the cursive value (i.e. the field’s own name)
+message?: string // optional custom error message; replaces {maxDepth} and {key} with your input
+```
+
+---
+
+
+#### Note to any Sanity dev who looks at this
+
+I’d love to include similar logic on my `hidden:` attribute, but I don’t think that’t possible without a `path` array in `hidden`’s `ConditionalPropertyCallbackContext` that’s similar to the one fed to the `ValidationContext` (todo: type this correctly). Wouldn’t this be cool?
 
 ```typescript
 defineField({
@@ -447,6 +536,8 @@ defineField({
   },
 })
 ```
+
+---
 
 ## Extending these and writing your own
 

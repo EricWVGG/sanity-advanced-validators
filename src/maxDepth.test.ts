@@ -32,7 +32,7 @@ describe("maxDepth", () => {
   })
 
   it("supports custom message", () => {
-    const fn = maxDepth(1, "children", "Custom: {nestedValueName} max {maxDepth}")
+    const fn = maxDepth(1, "children", "Custom: {key} max {maxDepth}")
     const context = makeContext(["topLevelItems", "children", "children"])
     expect(fn(undefined, context)).toBe("Custom: children max 1")
   })
