@@ -10,6 +10,7 @@ export const maxDepth = (
   if (paths.length > maxDepth) {
     return message
       .replace("{key}", key)
+      .replace("{nestedValueName}", key)  // backward compatibility
       .replace("{maxDepth}", maxDepth.toString())
   }
   return true

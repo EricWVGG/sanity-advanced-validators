@@ -45,6 +45,7 @@ export const requiredIfSiblingEq = (
       return message
         .replace('{key}', key)
         .replace('{operand}', operands.join(', or ') ?? 'null')
+        .replace('{value}', operands.join(', or ') ?? 'null') // backward compatibility
         .replace('{siblingValue}', siblingValue)
     }
     return true
