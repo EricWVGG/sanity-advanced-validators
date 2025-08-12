@@ -13,6 +13,7 @@ This package includes a set of Sanity validators for aggressive and weird edge c
 - [requiredIfSiblingNeq](#requiredIfSiblingNeq)
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
+- [regex](#regex)
 - [referencedDocumentRequires](#referencedDocumentRequires)
 - [maxDepth](#maxDepth)
 
@@ -117,7 +118,7 @@ const ImageWithCaption = defineType({
 
 ### maxDimensions
 
-Enforces that an uploaded image asset is at most certain dimensions.
+Enforces that an uploaded image asset is at most certain dimensions. You can test on both, just x, or just y.
 
 ```typescript
 dimensions: {x?: number, y?: number},
@@ -375,6 +376,37 @@ defineType({
     }),
   ],
 })
+```
+
+---
+
+### regex
+
+Easily test any value against a regular expression.
+
+Values can be of type string, number, boolean… even objects!
+
+```typescript
+pattern: RegExp // regular expression
+message?: string // optional custom error message; replaces {pattern} with your input and {value} as submitted field value
+```
+
+```typescript
+defineField({
+  name: 'email',
+  type: 'string',
+  validation: (rule) => rule.custom(
+    regex(
+      /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/, 
+      "“{value}” is not a valid email address."
+    )
+  ),
+}),
+```
+
+**Custom error messages are highly recommended here.** Without the custom message above, the default response would be:
+```
+“me@googlecom” does not match the pattern /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.
 ```
 
 ---
