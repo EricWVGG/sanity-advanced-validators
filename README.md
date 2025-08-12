@@ -13,7 +13,7 @@ This package includes a set of Sanity validators for aggressive and weird edge c
 - [requiredIfSiblingNeq](#requiredIfSiblingNeq)
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
-- [regex](#regex)
+- [regex](#regex) 🆕
 - [referencedDocumentRequires](#referencedDocumentRequires)
 - [maxDepth](#maxDepth)
 
