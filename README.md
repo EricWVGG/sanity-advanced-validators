@@ -1,8 +1,8 @@
-*🚓 Never trust a user! 👮*
+_🚓 Never trust a user! 👮_
 
 # Sanity Advanced Validators
 
-This package includes a set of Sanity validators for aggressive and weird edge cases. *Maintain sanity with micro-managed validation.*
+This package includes a set of Sanity validators for aggressive and weird edge cases. _Maintain sanity with micro-managed validation._
 
 ## Tools
 
@@ -19,6 +19,7 @@ This package includes a set of Sanity validators for aggressive and weird edge c
 ## Mega-example
 
 Imagine that you’ve got a document that has an optional video file, but…
+
 - it’s required on the `/about` page
 - if the video exists, it must be either **MP4** or **MOV**
 - and there must be a poster image that's between **1250x800** and **2500x1600** pixels in size
@@ -36,7 +37,6 @@ const Page = defineType({
       name: "someVideoFile",
       type: "file",
       validation: (rule) =>
-      message?: string // optional custom error message; 
         rule.custom(requiredIfSlugEq('about', 'A video is required if {slugKey} is {operand}.'))
           .custom(fileExtension(['mp4', 'mov']))
     })
@@ -60,7 +60,7 @@ const Page = defineType({
 Enforces that an uploaded file asset is of a certain format.
 
 ```typescript
-fileType: string | Array<string>, 
+fileType: string | Array<string>,
 message?: string // optional custom error message; replaces {validFileExtension} with fileType (flattened)
 ```
 
@@ -92,7 +92,7 @@ const Page = defineType({
 Enforces that an uploaded image asset is at minimum certain dimensions. You can test on both, just x, or just y.
 
 ```typescript
-dimensions: {x?: number, y?: number}, 
+dimensions: {x?: number, y?: number},
 message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
 ```
 
@@ -120,7 +120,7 @@ const ImageWithCaption = defineType({
 Enforces that an uploaded image asset is at most certain dimensions.
 
 ```typescript
-dimensions: {x?: number, y?: number}, 
+dimensions: {x?: number, y?: number},
 message?: string // optional custom error message; replaces {x} and {y} with your dimension requirements, and {width} and {height} with submitted image dimensions
 ```
 
@@ -149,12 +149,11 @@ defineField({
 
 ---
 
-
 ### requiredIfSiblingEq
 
-Mark a field as `required` if a sibling field has a particular value. This is the validator we use most. *It’s super effective!*
+Mark a field as `required` if a sibling field has a particular value. This is the validator we use most. _It’s super effective!_
 
-This is handy if you have a field that is hidden under some circumstances, but is `required()` when it’s visible. 
+This is handy if you have a field that is hidden under some circumstances, but is `required()` when it’s visible.
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
@@ -216,8 +215,8 @@ defineType({
       name: 'phone',
       type: 'string',
       validation: rule => rule.custom(requiredIfSiblingEq(
-        'email', 
-        null, 
+        'email',
+        null,
         "If you don’t have an email address, a phone number is required."
       ))
     })
@@ -229,31 +228,31 @@ And it even works for arrays.
 
 ```typescript
 defineType({
-  name: 'person',
-  type: 'object',
+  name: "person",
+  type: "object",
   fields: [
     defineField({
-      name: 'name',
-      type: 'string'
+      name: "name",
+      type: "string",
     }),
     defineField({
-      name: 'name',
-      type: 'string'
+      name: "name",
+      type: "string",
     }),
     defineField({
-      name: 'occupation',
-      type: 'string',
+      name: "occupation",
+      type: "string",
       options: {
-        list: ['doctor', 'lawyer', 'software engineer']
-      }
+        list: ["doctor", "lawyer", "software engineer"],
+      },
     }),
     defineField({
-      name: 'explanation',
-      description: 'Why are you wasting your life this way?',
-      type: 'text',
-      validation: rule => rule.custom(requiredIfSiblingEq('occupation', ['doctor', 'lawyer'])),
-      hidden: ({parent}) => parent.occuption === 'software engineer',
-    })
+      name: "explanation",
+      description: "Why are you wasting your life this way?",
+      type: "text",
+      validation: (rule) => rule.custom(requiredIfSiblingEq("occupation", ["doctor", "lawyer"])),
+      hidden: ({ parent }) => parent.occuption === "software engineer",
+    }),
   ],
 })
 ```
@@ -313,26 +312,24 @@ message?: string // optional custom error message; replaces {slugKey} and {opera
 ```
 
 ```typescript
-import {requiredIfSlugEq} from 'sanity-advanced-validation'
+import { requiredIfSlugEq } from "sanity-advanced-validation"
 
 defineType({
-  name: 'page',
-  type: 'document',
+  name: "page",
+  type: "document",
   fields: [
     defineField({
-      name: 'slug',
-      type: 'slug'
+      name: "slug",
+      type: "slug",
     }),
     defineField({
-      name: 'questionsAndAnswers',
-      type: 'array',
-      of: [
-        {type: 'qaItem'}
-      ],
-      validation: rule => rule.custom(requiredIfSlugEq('faq')),
-      hidden: ({parent}) => parent.slug.current !== 'faq'
-    })
-  ]
+      name: "questionsAndAnswers",
+      type: "array",
+      of: [{ type: "qaItem" }],
+      validation: (rule) => rule.custom(requiredIfSlugEq("faq")),
+      hidden: ({ parent }) => parent.slug.current !== "faq",
+    }),
+  ],
 })
 ```
 
@@ -347,7 +344,6 @@ defineField({
 
 ---
 
-
 ### requiredIfSlugNeq
 
 Require fields on pages that don't match one or more slugs.
@@ -359,27 +355,25 @@ message?: string // optional custom error message; replaces {slugKey} and {opera
 ```
 
 ```typescript
-import {requiredIfSlugNeq} from 'sanity-advanced-validation'
+import { requiredIfSlugNeq } from "sanity-advanced-validation"
 
 defineType({
-  name: 'page',
-  type: 'document',
+  name: "page",
+  type: "document",
   fields: [
     defineField({
-      name: 'slug',
-      type: 'slug'
+      name: "slug",
+      type: "slug",
     }),
     defineField({
-      name: 'subnav',
+      name: "subnav",
       description: `Subnav is required on documents that aren’t '/home'`,
-      type: 'array',
-      of: [
-        {type: 'navLink'}
-      ],
-      validation: rule => rule.custom(requiredIfSlugNeq('home')),
-      hidden: ({parent}) => parent.slug.current !== 'home'
-    })
-  ]
+      type: "array",
+      of: [{ type: "navLink" }],
+      validation: (rule) => rule.custom(requiredIfSlugNeq("home")),
+      hidden: ({ parent }) => parent.slug.current !== "home",
+    }),
+  ],
 })
 ```
 
@@ -486,7 +480,6 @@ const navLink = defineType({
 This will enforce that a subnav list can embed in a subnav, which can also be embedded in a subnav — but no further.
 
 ---
-
 
 #### Note to any Sanity dev who looks at this
 
