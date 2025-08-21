@@ -23,7 +23,7 @@
   "dependencies": {
     "@sanity/asset-utils": "^2.2.1",
     "lodash-es": "^4.17.0",
-    "sanity": "^4.0.0"
+    "sanity": "^3.9.0"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.0",
