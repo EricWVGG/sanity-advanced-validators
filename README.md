@@ -160,7 +160,7 @@ _note:_ This does not work for slugs, because they have to match a nested `.curr
 
 ```typescript
 key: string, // name of sibling
-operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
+operand: string | number | boolean | null | Array<string, number> // value that you’re testing for (i.e. if 'name' === operand)
 message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
 ```
 
@@ -197,7 +197,35 @@ defineType({
 })
 ```
 
-“If not that, then this.” This also works for null.
+And it also works for arrays.
+
+```typescript
+defineType({
+  name: "person",
+  type: "object",
+  fields: [
+    // ...
+    defineField({
+      name: "occupation",
+      type: "string",
+      options: {
+        list: ["doctor", "lawyer", "software engineer", "linguist"],
+      },
+    }),
+    defineField({
+      name: "favoriteLanguage",
+      type: "string",
+      options: {
+        list: ["javascript", "rust", "python", "swift", "latin", "urdu", "klingon"],
+      },
+      validation: (rule) => rule.custom(requiredIfSiblingEq("occupation", ["software engineer", "linguist"])),
+      hidden: ({ parent }) => !["software engineer", "linguist"].includes(parent.occupation),
+    }),
+  ],
+})
+```
+
+“If not that, then this.” It even works for null.
 
 ```typescript
 defineType({
@@ -225,50 +253,17 @@ defineType({
 })
 ```
 
-And it even works for arrays.
-
-```typescript
-defineType({
-  name: "person",
-  type: "object",
-  fields: [
-    defineField({
-      name: "name",
-      type: "string",
-    }),
-    defineField({
-      name: "name",
-      type: "string",
-    }),
-    defineField({
-      name: "occupation",
-      type: "string",
-      options: {
-        list: ["doctor", "lawyer", "software engineer"],
-      },
-    }),
-    defineField({
-      name: "explanation",
-      description: "Why are you wasting your life this way?",
-      type: "text",
-      validation: (rule) => rule.custom(requiredIfSiblingEq("occupation", ["doctor", "lawyer"])),
-      hidden: ({ parent }) => parent.occuption === "software engineer",
-    }),
-  ],
-})
-```
-
 ---
 
 ### requiredIfSiblingNeq
 
-For a given object that has multiple fields, mark a field as `required` if a sibling does _not_ have a particular value.
+For a given object that has multiple fields, mark a field as `required` if a sibling does _not_ have a particular value (or member of an array of values).
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugNeq validator](#requiredIfSlugNeq) instead.
 
 ```typescript
 key: string, // name of sibling
-operand: string | number | null | Array<string, number, null> // value that you’re testing for (i.e. if 'name' === operand)
+operand: string | number | boolean | null | Array<string, number> // value that you’re testing for (i.e. if 'name' === operand)
 message?: string // optional custom error message; replaces {key} and {operand} with your input, and {siblingValue} with the value of the sibling you’re testing against.
 ```
 
@@ -291,12 +286,12 @@ defineType({
       }
     })
     defineField({
-      name: 'why',
-      description: 'How many years will you spend paying off your degree?',
-      type: 'number',
-      validation: rule => rule.custom(requiredIfSiblingNeq('occupation', 'software engineer'))
-    }),
-  ],
+      name: "explanation",
+      description: "Why are you wasting your life this way?",
+      type: "text",
+      validation: (rule) => rule.custom(requiredIfSiblingNeq("occupation", "software engineer")),
+      hidden: ({ parent }) => parent.occuption === "software engineer",
+    }),  ],
 })
 ```
 
@@ -307,7 +302,7 @@ defineType({
 Mark a field as `required` for documents with matching slugs.
 
 ```typescript
-operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
+operand: string | number | null | Array<string, number> // possible slug or slugs you’re testing
 key?: string, // name of sibling if not "slug"
 message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
 ```
@@ -350,7 +345,7 @@ defineField({
 Require fields on pages that don't match one or more slugs.
 
 ```typescript
-operand: string | number | null | Array<string, number, null> // possible slug or slugs you’re testing
+operand: string | number | null | Array<string, number> // possible slug or slugs you’re testing
 key?: string, // name of sibling if not "slug"
 message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
 ```
@@ -397,7 +392,7 @@ defineField({
   type: 'string',
   validation: (rule) => rule.custom(
     regex(
-      /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/, 
+      /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/,
       "“{value}” is not a valid email address."
     )
   ),
@@ -405,6 +400,7 @@ defineField({
 ```
 
 **Custom error messages are highly recommended here.** Without the custom message above, the default response would be:
+
 ```
 “me@googlecom” does not match the pattern /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.
 ```
