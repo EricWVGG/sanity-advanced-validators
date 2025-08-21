@@ -187,7 +187,7 @@ defineType({
       type: 'string',
       options: {
         list: [
-          'javascript', 'rust', 'python', 'swift'
+          'typescript', 'rust', 'python', 'swift'
         ]
       },
       validation: rule => rule.custom(requiredIfSiblingEq('occupation', 'software engineer')),
@@ -216,7 +216,7 @@ defineType({
       name: "favoriteLanguage",
       type: "string",
       options: {
-        list: ["javascript", "rust", "python", "swift", "latin", "urdu", "klingon"],
+        list: ["typescript", "rust", "python", "swift", "latin", "urdu", "klingon"],
       },
       validation: (rule) => rule.custom(requiredIfSiblingEq("occupation", ["software engineer", "linguist"])),
       hidden: ({ parent }) => !["software engineer", "linguist"].includes(parent.occupation),
@@ -532,7 +532,7 @@ defineField({
 
 Most of these validators rely on a function called `getSibling()`. If you’re thinking about picking this apart and writing your own custom validator, take a close look at how these validators use it.
 
-## Upcoming
+## Roadmap
 
 ### Nested pathfinders
 

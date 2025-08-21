@@ -22,13 +22,13 @@
   ],
   "dependencies": {
     "@sanity/asset-utils": "^2.2.1",
-    "lodash-es": "^4.0.0",
+    "lodash-es": "^4.17.0",
     "sanity": "^4.0.0"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.0.0",
+    "@types/lodash-es": "^4.17.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2",
+    "typescript": "^5.8.0",
     "vitest": "^3.2.4"
   },
   "name": "sanity-advanced-validators",
