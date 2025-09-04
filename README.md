@@ -38,17 +38,27 @@ const Page = defineType({
       name: "someVideoFile",
       type: "file",
       validation: (rule) =>
-        rule.custom(requiredIfSlugEq('about', 'A video is required if {slugKey} is {operand}.'))
-          .custom(fileExtension(['mp4', 'mov']))
+        rule.custom(
+          requiredIfSlugEq(
+            'about',
+            'A video is required if {slugKey} is {operand}.'
+          )
+        ).custom(
+          fileExtension(['mp4', 'mov'])
+        )
     })
     defineField({
       name: "posterImage",
       type: "image",
       hidden: ({ parent }) => parent.someVideoFile === null,
       validation: (rule) =>
-        rule.custom(requiredIfSiblingNeq('someVideoFile', null))
-          .custom(minDimensions({ x: 1250, y: 800 }))
-          .custom(maxDimensions({ x: 2500, y: 1600 })),
+        rule.custom(
+          requiredIfSiblingNeq('someVideoFile', null)
+        ).custom(
+          minDimensions({ x: 1250, y: 800 })
+        ).custom(
+          maxDimensions({ x: 2500, y: 1600 })
+        ),
     })
   ]
 })
@@ -75,12 +85,18 @@ const Page = defineType({
     defineField({
       name: "catalog",
       type: "file",
-      validation: (rule) => rule.custom(fileExtension("pdf")),
+      validation: (rule) => 
+        rule.custom(
+          fileExtension("pdf")
+        ),
     }),
     defineField({
       name: "video",
       type: "file",
-      validation: (rule) => rule.custom(fileExtension(["mp4", "mov", "webm"])),
+      validation: (rule) => 
+        rule.custom(
+          fileExtension(["mp4", "mov", "webm"])
+        ),
     }),
   ],
 })
@@ -108,7 +124,10 @@ const ImageWithCaption = defineType({
     defineField({
       name: "heroImage",
       type: "image",
-      validation: (rule) => rule.custom(minDimensions({ x: 1200, y: 800 })),
+      validation: (rule) => 
+        rule.custom(
+          minDimensions({ x: 1200, y: 800 })
+        ),
     }),
   ],
 })
@@ -129,7 +148,10 @@ message?: string // optional custom error message; replaces {x} and {y} with you
 defineField({
   name: "heroImage",
   type: "image",
-  validation: (rule) => rule.custom(maxDimensions({ x: 2400, y: 1600 })),
+  validation: (rule) => 
+    rule.custom(
+      maxDimensions({ x: 2400, y: 1600 })
+    ),
 }),
 ```
 
@@ -141,10 +163,12 @@ defineField({
   type: "image",
   description: "Min: 1200x800, max: 2400x1600.",
   validation: (rule) =>
-    rule
-      .required()
-      .custom(minDimensions({ x: 1200, y: 800 }))
-      .custom(maxDimensions({ x: 2400, y: 1600 })),
+    rule.required()
+      .custom(
+        minDimensions({ x: 1200, y: 800 })
+      ).custom(
+        maxDimensions({ x: 2400, y: 1600 })
+      ),
 })
 ```
 
@@ -190,7 +214,10 @@ defineType({
           'typescript', 'rust', 'python', 'swift'
         ]
       },
-      validation: rule => rule.custom(requiredIfSiblingEq('occupation', 'software engineer')),
+      validation: rule => 
+        rule.custom(
+          requiredIfSiblingEq('occupation', 'software engineer')
+        ),
       hidden: ({parent}) => parent.occuption !== 'software engineer',
     }),
   ],
@@ -218,14 +245,17 @@ defineType({
       options: {
         list: ["typescript", "rust", "python", "swift", "latin", "urdu", "klingon"],
       },
-      validation: (rule) => rule.custom(requiredIfSiblingEq("occupation", ["software engineer", "linguist"])),
+      validation: (rule) => 
+        rule.custom(
+          requiredIfSiblingEq("occupation", ["software engineer", "linguist"])
+        ),
       hidden: ({ parent }) => !["software engineer", "linguist"].includes(parent.occupation),
     }),
   ],
 })
 ```
 
-“If not that, then this.” It even works for null.
+It even works for null.
 
 ```typescript
 defineType({
@@ -243,11 +273,14 @@ defineType({
     defineField({
       name: 'phone',
       type: 'string',
-      validation: rule => rule.custom(requiredIfSiblingEq(
-        'email',
-        null,
-        "If you don’t have an email address, a phone number is required."
-      ))
+      validation: rule => 
+        rule.custom(
+          requiredIfSiblingEq(
+            'email',
+            null,
+            "If you don’t have an email address, a phone number is required."
+          )
+        )
     })
   ],
 })
@@ -289,7 +322,10 @@ defineType({
       name: "explanation",
       description: "Why are you wasting your life this way?",
       type: "text",
-      validation: (rule) => rule.custom(requiredIfSiblingNeq("occupation", "software engineer")),
+      validation: (rule) => 
+        rule.custom(
+          requiredIfSiblingNeq("occupation", "software engineer")
+        ),
       hidden: ({ parent }) => parent.occuption === "software engineer",
     }),  ],
 })
@@ -322,7 +358,10 @@ defineType({
       name: "questionsAndAnswers",
       type: "array",
       of: [{ type: "qaItem" }],
-      validation: (rule) => rule.custom(requiredIfSlugEq("faq")),
+      validation: (rule) => 
+        rule.custom(
+          requiredIfSlugEq("faq")
+        ),
       hidden: ({ parent }) => parent.slug.current !== "faq",
     }),
   ],
@@ -334,7 +373,10 @@ And this can apply to multiple slugs…
 ```typescript
 defineField({
   name: "questionsAndAnswers",
-  validation: (rule) => rule.custom(requiredIfSlugEq(["faq", "about"])),
+  validation: (rule) => 
+    rule.custom(
+      requiredIfSlugEq(["faq", "about"])
+    ),
 }),
 ```
 
@@ -366,7 +408,10 @@ defineType({
       description: `Subnav is required on documents that aren’t '/home'`,
       type: "array",
       of: [{ type: "navLink" }],
-      validation: (rule) => rule.custom(requiredIfSlugNeq("home")),
+      validation: (rule) => 
+        rule.custom(
+          requiredIfSlugNeq("home")
+        ),
       hidden: ({ parent }) => parent.slug.current !== "home",
     }),
   ],
@@ -390,12 +435,13 @@ message?: string // optional custom error message; replaces {pattern} with your 
 defineField({
   name: 'email',
   type: 'string',
-  validation: (rule) => rule.custom(
-    regex(
-      /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/,
-      "“{value}” is not a valid email address."
-    )
-  ),
+  validation: (rule) => 
+    rule.custom(
+      regex(
+        /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/,
+        "“{value}” is not a valid email address."
+      )
+    ),
 }),
 ```
 
@@ -423,7 +469,10 @@ defineField({
   description: 'An article (must include a valid poster image)',
   type: 'reference',
   to: [{type: 'article'}],
-  validation: (rule) => rule.custom(referencedDocumentRequires('article', 'poster')),
+  validation: (rule) => 
+    rule.custom(
+      referencedDocumentRequires('article', 'poster')
+    ),
 }),
 ```
 
@@ -499,7 +548,10 @@ const navLink = defineType({
       name: "subnav",
       type: "array",
       of: [{ type: navigation }],
-      validation: (rule) => rule.custom(maxDepth(3, "subnav")),
+      validation: (rule) => 
+        rule.custom(
+          maxDepth(3, "subnav")
+        ),
     }),
   ],
 })
