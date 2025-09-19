@@ -78,7 +78,7 @@ message?: string // optional custom error message; replaces {validFileExtension}
 ```
 
 ```typescript
-import { fileExtension } from "sanity-advanced-validation"
+import { fileExtension } from "sanity-advanced-validators"
 
 const Page = defineType({
   name: "page",
@@ -116,7 +116,7 @@ message?: string // optional custom error message; replaces {x} and {y} with you
 ```
 
 ```typescript
-import { minDimensions } from "sanity-advanced-validation"
+import { minDimensions } from "sanity-advanced-validators"
 
 const ImageWithCaption = defineType({
   name: "article",
@@ -240,7 +240,7 @@ message?: string // optional custom error message; replaces {key} and {operand} 
 ```
 
 ```typescript
-import {requiredIfSiblingEq} from 'sanity-advanced-validation'
+import {requiredIfSiblingEq} from 'sanity-advanced-validators'
 
 defineType({
   name: 'person',
@@ -352,7 +352,7 @@ message?: string // optional custom error message; replaces {key} and {operand} 
 ```
 
 ```typescript
-import {requiredIfSiblingNeq} from 'sanity-advanced-validation'
+import {requiredIfSiblingNeq} from 'sanity-advanced-validators'
 
 defineType({
   name: 'person',
@@ -395,7 +395,7 @@ message?: string // optional custom error message; replaces {slugKey} and {opera
 ```
 
 ```typescript
-import { requiredIfSlugEq } from "sanity-advanced-validation"
+import { requiredIfSlugEq } from "sanity-advanced-validators"
 
 defineType({
   name: "page",
@@ -444,7 +444,7 @@ message?: string // optional custom error message; replaces {slugKey} and {opera
 ```
 
 ```typescript
-import { requiredIfSlugNeq } from "sanity-advanced-validation"
+import { requiredIfSlugNeq } from "sanity-advanced-validators"
 
 defineType({
   name: "page",
@@ -589,7 +589,7 @@ message?: string // optional custom error message; replaces {maxDepth} and {key}
 ```
 
 ```typescript
-import { maxDepth } from "sanity-advanced-validation"
+import { maxDepth } from "sanity-advanced-validators"
 
 const navLink = defineType({
   // …
