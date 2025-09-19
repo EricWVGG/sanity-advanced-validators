@@ -223,6 +223,24 @@ defineField({
 }),
 ```
 
+And of course it can be chained.
+
+```typescript
+defineField({
+  name: "thumbnails",
+  type: "array",
+  of: [ {type: 'image'} ],
+  validation: (rule) => 
+    rule.required()
+      .custom(
+        minCount(1, "At least one thumbnail is required.")
+      ),
+      .custom(
+        maxCount(3, "1-3 thumbnails are required.")
+      ),
+}),
+```
+
 ---
 
 ### requiredIfSiblingEq
