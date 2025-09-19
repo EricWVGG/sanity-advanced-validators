@@ -2,7 +2,8 @@ import { get } from "lodash-es"
 import { ValidationContext } from "sanity"
 
 export const getSibling = (key: string | number, context: ValidationContext) => {
-  const pathToParentObject = context.path!.slice(0, -1) as Array<string | number>
+  if(!context.path) return undefined
+  const pathToParentObject = context.path.slice(0, -1) as Array<string | number>
   const sibling = get(context.document, [...pathToParentObject, key])
   return sibling
 }

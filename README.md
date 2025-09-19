@@ -9,11 +9,13 @@ This package includes a set of Sanity validators for aggressive and weird edge c
 - [fileExtension](#fileExtension)
 - [minDimensions](#minDimensions)
 - [maxDimensions](#maxDimensions)
+- [minCount](#minCount) 🆕
+- [maxCount](#maxCount) 🆕
 - [requiredIfSiblingEq](#requiredIfSiblingEq)
 - [requiredIfSiblingNeq](#requiredIfSiblingNeq)
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
-- [regex](#regex) 🆕
+- [regex](#regex)
 - [referencedDocumentRequires](#referencedDocumentRequires)
 - [maxDepth](#maxDepth)
 
@@ -170,6 +172,55 @@ defineField({
         maxDimensions({ x: 2400, y: 1600 })
       ),
 })
+```
+
+---
+
+### minCount
+
+Enforces that an array contains at least _n_ items. 
+
+Note that null values are fine; use `rule.required()` to enforce non-nulls.
+
+```typescript
+n: number,
+message?: string // optional custom error message; replaces {n} with your minimum count
+```
+
+```typescript
+defineField({
+  name: "thumbnails",
+  type: "array",
+  of: [ {type: 'image'} ],
+  validation: (rule) => 
+    rule.required()
+      .custom(
+        minCount(3, "At least {n} thumbnails are required.")
+      ),
+}),
+```
+
+---
+
+### maxCount
+
+Enforces that an array contains at most _n_ items. 
+
+```typescript
+n: number,
+message?: string // optional custom error message; replaces {n} with your maximum count
+```
+
+```typescript
+defineField({
+  name: "thumbnails",
+  type: "array",
+  of: [ {type: 'image'} ],
+  validation: (rule) => 
+    rule.custom(
+      maxCount(3, "No more than {n} thumbnails.")
+    ),
+}),
 ```
 
 ---
