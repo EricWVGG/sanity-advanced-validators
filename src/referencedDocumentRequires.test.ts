@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
-import { referencedDocumentRequires } from "./referencedDocumentRequires"
+import { referencedDocumentRequires } from "./"
 import { ValidationContext } from "sanity"
 
 const mockFetch = vi.fn()
@@ -10,7 +10,7 @@ const makeContext = (fieldValue: any): ValidationContext => ({
   getClient: mockGetClient,
   schema: {} as any,
   environment: {} as any,
-  i18n: {} as any
+  i18n: {} as any,
 })
 
 // todo: I'd like to try this with a real world context dump instead of a mocked one.

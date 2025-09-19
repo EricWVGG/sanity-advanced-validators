@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest"
-import { maxDepth } from "./maxDepth"
-import { ValidationContext } from 'sanity'
+import { maxDepth } from "./"
+import { ValidationContext } from "sanity"
 
 const makeContext = (path: Array<any>): ValidationContext => ({
   path,
-  getClient: () => ({} as any),
+  getClient: () => ({}) as any,
   schema: {} as any,
   environment: {} as any,
   i18n: {} as any,

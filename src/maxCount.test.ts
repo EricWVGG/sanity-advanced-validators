@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest"
-import { maxCount } from "./maxCount"
+import { maxCount } from "./"
 
 describe("maxCount", () => {
   it("returns true if under requested count", () => {

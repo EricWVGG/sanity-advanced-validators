@@ -1,16 +1,16 @@
 import { describe, it, expect } from "vitest"
-import { requiredIfSlugEq } from "./requiredIfSlugEq"
-import { ValidationContext } from 'sanity'
+import { requiredIfSlugEq } from "./"
+import { ValidationContext } from "sanity"
 
 function makeContext(slugValue?: string, slugKey: string = "slug"): ValidationContext {
-    // todo: requiredIfSiblingEq uses context.document, while requiredIfSlugEq uses context.parent
-    return {
-        parent: {
-            [slugKey]: {
-                current: slugValue
-            }
-        }
-    } as ValidationContext
+  // todo: requiredIfSiblingEq uses context.document, while requiredIfSlugEq uses context.parent
+  return {
+    parent: {
+      [slugKey]: {
+        current: slugValue,
+      },
+    },
+  } as ValidationContext
 }
 
 describe("requiredIfSlugEq", () => {

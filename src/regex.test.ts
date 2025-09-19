@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { regex } from "./regex"
+import { regex } from "./"
 
 describe("regex", () => {
   it("returns true if value is undefined", () => {

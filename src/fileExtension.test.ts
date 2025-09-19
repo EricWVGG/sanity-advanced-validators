@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest"
-import { fileExtension } from "./fileExtension"
+import { fileExtension } from "./"
 import { FileValue } from "sanity"
 
 // Mock getExtension from @sanity/asset-utils
@@ -10,10 +10,10 @@ vi.mock("@sanity/asset-utils", () => ({
     if (ref.endsWith(".png")) return "png"
     if (ref.endsWith(".pdf")) return "pdf"
     return "unknown"
-  }
+  },
 }))
 
-const asset = (ref: string): FileValue => ({ asset: { _ref: ref } } as FileValue)
+const asset = (ref: string): FileValue => ({ asset: { _ref: ref } }) as FileValue
 
 describe("fileExtension", () => {
   it("returns true if value is undefined", () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest"
-import { minCount } from "./minCount"
+import { minCount } from "./"
 
 describe("minCount", () => {
   it("returns true if at least requested count", () => {

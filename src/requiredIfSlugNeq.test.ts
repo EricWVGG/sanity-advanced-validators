@@ -1,16 +1,16 @@
 import { describe, it, expect } from "vitest"
-import { requiredIfSlugNeq } from "./requiredIfSlugNeq"
-import { ValidationContext } from 'sanity'
+import { requiredIfSlugNeq } from "./"
+import { ValidationContext } from "sanity"
 
 function makeContext(slugValue?: string, slugKey: string = "slug"): ValidationContext {
-    // todo: requiredIfSiblingEq uses context.document, while requiredIfSlugEq uses context.parent
-    return {
-        parent: {
-            [slugKey]: {
-                current: slugValue
-            }
-        }
-    } as ValidationContext
+  // todo: requiredIfSiblingEq uses context.document, while requiredIfSlugEq uses context.parent
+  return {
+    parent: {
+      [slugKey]: {
+        current: slugValue,
+      },
+    },
+  } as ValidationContext
 }
 describe("requiredIfSlugNeq", () => {
   it("returns true if value is present regardless of slug", () => {
@@ -23,12 +23,12 @@ describe("requiredIfSlugNeq", () => {
     const fn = requiredIfSlugNeq("alpha")
     expect(fn(undefined, makeContext("alpha"))).toBe(true)
   })
-  
+
   it("returns error message if slug is undefined", () => {
     const fn = requiredIfSlugNeq("alpha")
     expect(fn(undefined, makeContext(undefined))).toBe("This is a required field.")
   })
-  
+
   it("returns error message if value is missing and slug does not match comparison", () => {
     const fn = requiredIfSlugNeq("alpha")
     expect(fn(undefined, makeContext("beta"))).toBe("This is a required field.")

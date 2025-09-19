@@ -1,18 +1,18 @@
 import { describe, it, expect, vi } from "vitest"
-import { requiredIfSiblingEq } from "./requiredIfSiblingEq"
-import { ValidationContext } from 'sanity'
+import { requiredIfSiblingEq } from "./"
+import { ValidationContext } from "sanity"
 
 // Mock getSibling to control sibling value in tests
-vi.mock("./", () => ({
-  getSibling: (key: string, context: any) => context?.document?.[key]
+vi.mock("./lib/getSibling", () => ({
+  getSibling: (key: string, context: any) => context?.document?.[key],
 }))
 
 function makeContext(key: string, value: string): ValidationContext {
-    return {
-        document: {
-            [key]: value
-        }
-    } as ValidationContext
+  return {
+    document: {
+      [key]: value,
+    },
+  } as ValidationContext
 }
 
 describe("requiredIfSiblingEq", () => {

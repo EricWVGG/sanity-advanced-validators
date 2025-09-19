@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest"
-import { maxDimensions } from "./maxDimensions"
+import { maxDimensions } from "./"
 import { FileValue } from "sanity"
 
 // Mock getImageDimensions from @sanity/asset-utils
@@ -10,11 +10,11 @@ vi.mock("@sanity/asset-utils", () => ({
     if (ref === "image-100x200") return { width: 100, height: 200 }
     if (ref === "image-300x400") return { width: 300, height: 400 }
     return { width: 0, height: 0 }
-  }
+  },
 }))
 
 describe("maxDimensions", () => {
-  const asset = (ref: string): FileValue => ({ asset: { _ref: ref } } as FileValue)
+  const asset = (ref: string): FileValue => ({ asset: { _ref: ref } }) as FileValue
 
   it("returns true if value is undefined", () => {
     expect(maxDimensions({ x: 100, y: 200 })(undefined)).toBe(true)
