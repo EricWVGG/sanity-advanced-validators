@@ -28,6 +28,8 @@ Imagine that you’ve got a document that has an optional video file, but…
 - and there must be a poster image that's between **1250x800** and **2500x1600** pixels in size
 
 ```typescript
+import { requiredIfSlugEq, requiredIfSiblingNeq, minDimensions, maxDimensions } from 'sanity-advanced-validators'
+
 const Page = defineType({
   name: "page",
   type: "document",
@@ -602,7 +604,7 @@ const navLink = defineType({
 
 ```typescript
 maxDepth: number // maximum "depth" of embedding (including parent)
-key: string, // name of the field that includes the cursive value (i.e. the field’s own name)
+key: string, // name of the field that includes the recursive value (i.e. the field’s own name)
 message?: string // optional custom error message; replaces {maxDepth} and {key} with your input
 ```
 
