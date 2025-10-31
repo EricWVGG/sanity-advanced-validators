@@ -665,9 +665,11 @@ Most of these validators rely on a function called `getSibling()`. If you’re t
 
 Since building these validator, I took to putting my slugs in a metadata object. I need to update `requiredIfSlugEq` to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
 
-This pathfinding should be added to any validator that takes a sibling, like `requiredIfSiblingEq`. It can probably be snapped into `getSibling`.
+This pathfinding should be added to any validator that takes a sibling, like `requiredIfSiblingEq('metadata.slug.current', 'home')`. It can probably be snapped into `getSibling`.
 
 While I’m at it, there’s a possibility that `getSibling` could detect the target type. If that type is `slug`, then it could add `current` to the path, and then I can deprecate `requiredIfSlugEq` altogether.
+
+On a related note, `requiredIfSlugEq` does not work in an object nested inside an array. If we can deprecate `requiredIfSlugEq`, then this would be automatically resolved.
 
 ### Image and File checks
 
