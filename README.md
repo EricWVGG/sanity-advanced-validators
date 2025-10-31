@@ -9,10 +9,10 @@ This package includes a set of Sanity validators for aggressive and weird edge c
 - [fileExtension](#fileExtension)
 - [minDimensions](#minDimensions)
 - [maxDimensions](#maxDimensions)
-- [minCount](#minCount) 🆕
-- [maxCount](#maxCount) 🆕
-- [requiredIfSiblingEq](#requiredIfSiblingEq)
-- [requiredIfSiblingNeq](#requiredIfSiblingNeq)
+- [minCount](#minCount)
+- [maxCount](#maxCount)
+- [requiredIfSiblingEq](#requiredIfSiblingEq) 🆕
+- [requiredIfSiblingNeq](#requiredIfSiblingNeq) 🆕
 - [requiredIfSlugEq](#requiredIfSlugEq)
 - [requiredIfSlugNeq](#requiredIfSlugNeq)
 - [regex](#regex)
@@ -251,6 +251,8 @@ Mark a field as `required` if a sibling field has a particular value. This is th
 
 This is handy if you have a field that is hidden under some circumstances, but is `required()` when it’s visible.
 
+🆕 Previously, this would not work for objects that were members of an array. That is fixed now.
+
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugEq validator](#requiredIfSlugEq) instead.
 
 ```typescript
@@ -362,6 +364,8 @@ defineType({
 ### requiredIfSiblingNeq
 
 For a given object that has multiple fields, mark a field as `required` if a sibling does _not_ have a particular value (or member of an array of values).
+
+🆕 Previously, this would not work for objects that were members of an array. That is fixed now.
 
 _note:_ This does not work for slugs, because they have to match a nested `.current` value. Use the [requiredIfSlugNeq validator](#requiredIfSlugNeq) instead.
 
