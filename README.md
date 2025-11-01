@@ -23,12 +23,18 @@ This package includes a set of Sanity validators for aggressive and weird edge c
 
 Imagine that you’ve got a document that has an optional video file, but…
 
-- it’s required on the `/about` page
 - if the video exists, it must be either **MP4** or **MOV**
 - and there must be a poster image that's between **1250x800** and **2500x1600** pixels in size
+- and it’s _always_ required on the `/home` page
 
 ```typescript
-import { requiredIfSlugEq, requiredIfSiblingNeq, minDimensions, maxDimensions } from 'sanity-advanced-validators'
+import { defineType, defineField } from 'sanity'
+import {
+  requiredIfSlugEq,
+  requiredIfSiblingNeq,
+  minDimensions,
+  maxDimensions
+} from 'sanity-advanced-validators'
 
 const Page = defineType({
   name: "page",
@@ -43,14 +49,11 @@ const Page = defineType({
       type: "file",
       validation: (rule) =>
         rule.custom(
-          requiredIfSlugEq(
-            'about',
-            'A video is required if {slugKey} is {operand}.'
-          )
+          requiredIfSlugEq('home', 'A video is required on the home page.')
         ).custom(
           fileExtension(['mp4', 'mov'])
         )
-    })
+    }),
     defineField({
       name: "posterImage",
       type: "image",
@@ -676,6 +679,8 @@ On a related note, `requiredIfSlugEq` does not work in an object nested inside a
 `minDimensions`, `maxDimensions`, and `fileExtension` should check to see if the field is of type `image` or `file`.
 
 Some of the other checks should probably make sure the field is _not_ `image` or `file`.
+
+An `aspectRatio(n)` might be nice (ex. `aspectRatio(1.6)` or `aspectRatio(1.6/1)`).
 
 ### new referencedDocumentFieldEq validator
 
