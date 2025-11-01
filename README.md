@@ -658,10 +658,6 @@ defineField({
 
 ---
 
-## Extending these and writing your own
-
-Most of these validators rely on a function called `getSibling()`. If you’re thinking about picking this apart and writing your own custom validator, take a close look at how these validators use it.
-
 ## Roadmap
 
 ### Nested pathfinders
