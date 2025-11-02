@@ -416,8 +416,8 @@ defineType({
 Mark a field as `required` for documents with matching slugs.
 
 ```typescript
-operand: string | number | null | Array<string, number> // possible slug or slugs you’re testing
-key?: string, // name of sibling if not "slug"
+operand: string | number | null | Array<string, number> // value or values that you’re testing for
+key?: string, // name of slug field if not "slug"
 message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
 ```
 
@@ -465,8 +465,8 @@ defineField({
 Require fields on pages that don't match one or more slugs.
 
 ```typescript
-operand: string | number | null | Array<string, number> // possible slug or slugs you’re testing
-key?: string, // name of sibling if not "slug"
+operand: string | number | null | Array<string, number> // value or values that you’re testing
+key?: string, // name of slug field if not "slug"
 message?: string // optional custom error message; replaces {slugKey} and {operand} with your input, and {siblingSlugValue} with the value of the sibling you’re testing against.
 ```
 
@@ -523,7 +523,7 @@ defineField({
 }),
 ```
 
-**Custom error messages are highly recommended here.** Without the custom message above, the default response would be:
+_Custom error messages are highly recommended here._ Without a custom message above, the default error message would be:
 
 ```
 “me@googlecom” does not match the pattern /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})*$/.

@@ -1,3 +1,4 @@
+import { getSibling } from "./"
 import { ValidationContext } from "sanity"
 
 /*
@@ -24,23 +25,17 @@ But even if it were, you wouldn't want to. There are valid reasons to make a com
 ex. an admin- or developer-level identifier that you don't want civilians to see or edit.
 */
 
-export const requiredIfSlugEq = (
-  slug: Array<string> | string, 
-  slugKey: string = "slug", 
-  message: string = `This is a required field.`
-) =>
+export const requiredIfSlugEq =
+  (operand: Array<string> | string, slugKey: string = "slug", message: string = `This is a required field.`) =>
   (value: unknown | undefined, context: ValidationContext) => {
-    const slugs = typeof slug === "string" ? [slug] : slug
-    const slugValue = (context.parent as any)?.[slugKey]?.current
-    
+    const slugValue = getSibling(slugKey, context)?.current
+    const operands = typeof operand === "string" ? [operand] : operand
+
     // todo: does slugKey exist? If not, fail.
     // todo: deal with nested slugKey (ex. metadata.slug)
-    
-    if (!value && !!slugValue && slugs.includes(slugValue)) {
-      return message
-        .replace("{slugKey}", slugKey)
-        .replace("{operand}", slugs.join(', or '))
-        .replace("{siblingSlugValue}", slugValue)
+
+    if (!value && !!slugValue && operands.includes(slugValue)) {
+      return message.replace("{slugKey}", slugKey).replace("{operand}", operands.join(", or ")).replace("{siblingSlugValue}", slugValue)
     }
     return true
   }

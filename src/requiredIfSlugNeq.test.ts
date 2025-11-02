@@ -3,9 +3,8 @@ import { requiredIfSlugNeq } from "./"
 import { ValidationContext } from "sanity"
 
 function makeContext(slugValue?: string, slugKey: string = "slug"): ValidationContext {
-  // todo: requiredIfSiblingEq uses context.document, while requiredIfSlugEq uses context.parent
   return {
-    parent: {
+    document: {
       [slugKey]: {
         current: slugValue,
       },
@@ -17,6 +16,11 @@ describe("requiredIfSlugNeq", () => {
     const fn = requiredIfSlugNeq("alpha")
     expect(fn("some value", makeContext("alpha"))).toBe(true)
     expect(fn("some value", makeContext("beta"))).toBe(true)
+  })
+
+  it("returns an error if value is null", () => {
+    const fn = requiredIfSlugNeq("alpha")
+    expect(fn(undefined, makeContext("beta"))).toBe("This is a required field.")
   })
 
   it("returns true if slug matches comparison", () => {
