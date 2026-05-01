@@ -662,7 +662,7 @@ defineField({
 
 ### Nested pathfinders
 
-Since building these validator, I took to putting my slugs in a metadata object. I need to update `requiredIfSlugEq` to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
+Since building these validators, I took to putting my slugs in a metadata object. I need to update `requiredIfSlugEq` to accept a path, like `requiredIfSlugEq('metadata.slug', 'some-values')`.
 
 This pathfinding should be added to any validator that takes a sibling, like `requiredIfSiblingEq('metadata.slug.current', 'home')`. It can probably be snapped into `getSibling`.
 
