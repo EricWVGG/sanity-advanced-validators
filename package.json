@@ -1,6 +1,6 @@
 {
-  "package-name": "sanity-advanced-validators",
-  "version": "0.9.1",
+  "name": "sanity-advanced-validators",
+  "version": "0.9.2",
   "description": "Advanced input validation tools for Sanity CMS.",
   "author": "Eric_WVGG",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "validation"
   ],
   "type": "module",
+  "packageManager": "pnpm@10.33.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.cjs",
   "types": "./dist/index.d.ts",
@@ -21,18 +22,17 @@
     "dist"
   ],
   "dependencies": {
-    "@sanity/asset-utils": "^2.3.0",
-    "sanity": "^6.0.0"
+    "@sanity/asset-utils": "^2.3.0"
   },
   "devDependencies": {
+    "sanity": "^6.0.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   },
   "peerDependencies": {
-    "sanity": "^5.1.0"
+    "sanity": "^5.1.0 || ^6.0.0"
   },
-  "name": "sanity-advanced-validators",
   "scripts": {
     "test": "npx vitest",
     "build": "tsup"
