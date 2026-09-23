@@ -1,6 +1,6 @@
 {
   "name": "sanity-advanced-validators",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "Advanced input validation tools for Sanity CMS.",
   "author": "Eric_WVGG",
   "license": "MIT",
